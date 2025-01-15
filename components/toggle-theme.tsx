@@ -1,15 +1,15 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "./theme-provider";
-import { Button } from "@/components/ui/button";
 
 export function ToggleTheme() {
    const { theme, setTheme } = useTheme();
 
    return (
       <Button
-         variant="icon"
+         variant="outline"
          size="icon"
          className="bg-[#010e2a]/[.92] max-md:size-10 max-md:rounded-2xl dark:bg-white"
          onClick={() => setTheme(theme === "light" ? "dark" : "light")}

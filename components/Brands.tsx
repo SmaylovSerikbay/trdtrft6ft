@@ -40,20 +40,19 @@ const VenuesBlock: React.FC<{ brands: Brand[] }> = ({ brands = [] }) => {
                         <ImageWithFallback
                            src={getImageUrl(brand.mainImage || brand.heroImage)}
                            fallbackSrc="/images/placeholder.jpg"
-                           alt={brand.name}
+                           alt={(brand as Brand).name}
                            className="w-full h-full object-cover"
                            fill
-                           unoptimized
                         />
                      </div>
                      <div className="venue-info">
                         <h3 className="venue-title">
-                           {brand.name}
+                           {(brand as Brand).name}
                         </h3>
                         <div className="venue-location">
                            <Logo />
                            <p className="venue-address">
-                              {brand.address || 'Адрес уточняется'}
+                              {(brand as Brand).address || 'Адрес уточняется'}
                            </p>
                         </div>
                      </div>

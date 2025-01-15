@@ -74,7 +74,7 @@ export default function Hero({
                priority
             />
          </div>
-         <InfiniteScroller texts={heroData.scrollerTexts} />
+         <InfiniteScroller texts={heroData.scrollerTexts as never[]} />
       </section>
    );
 }

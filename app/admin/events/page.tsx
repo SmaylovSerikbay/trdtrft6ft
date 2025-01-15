@@ -1,4 +1,4 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authConfig as authOptions } from "@/app/api/auth/[...nextauth]/auth.config";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 

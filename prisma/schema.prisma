@@ -146,15 +146,16 @@ model Anonce {
 model Brand {
   id            String   @id @default(cuid())
   name          String
+  description String   @default("")
+  slug          String   @unique
+  heroImage     String?
   title         String?
-  description   String? @db.Text
   welcomeText   String? @db.Text
   address       String?
   mapLink       String?
   phone         String?
   whatsapp      String?
   email         String?
-  slug          String   @unique
   workingHours  Json?
   mainGallery   Json?
   navigationTags Json?
@@ -162,10 +163,11 @@ model Brand {
   features      Json?
   specialOffers Json?
   bottomGallery Json?
-  heroImage     String?  @db.Text
   userId        String?
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+  mainImage     String?
+  gallery       Json?
 
   user User? @relation(fields: [userId], references: [id])
 }

@@ -91,7 +91,7 @@ export default function BrandPage({ brand }: BrandPageProps) {
                   unoptimized
                 />
                 <span>
-                  <a href={brand.mapLink} target="_blank" rel="noopener noreferrer">
+                  <a href={brand.mapLink || ''} target="_blank" rel="noopener noreferrer">
                     {brand.address}
                   </a>
                 </span>
@@ -108,7 +108,7 @@ export default function BrandPage({ brand }: BrandPageProps) {
                 />
                 <div>
                   <p>МЫ В 2GIS</p>
-                  <a href={brand.mapLink} target="_blank" rel="noopener noreferrer">
+                  <a href={brand.mapLink || ''} target="_blank" rel="noopener noreferrer">
                     {brand.mapLink}
                   </a>
                 </div>

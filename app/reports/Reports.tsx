@@ -164,14 +164,19 @@ export default function Reports() {
                            </div>
                         </div>
                         <Calendar
+                           {...(isRangeMode ? {
+                              mode: "range" as const,
+                              selected: {
+                                 from: dateRange.from,
+                                 to: dateRange.to
+                              }
+                           } : {
+                              mode: "single" as const,
+                              selected: dateRange.from
+                           })}
                            initialFocus
-                           mode={isRangeMode ? "range" : "single"}
                            defaultMonth={dateRange.from}
-                           selected={isRangeMode ? {
-                              from: dateRange.from,
-                              to: dateRange.to,
-                           } : dateRange.from}
-                           onSelect={(value) => {
+                           onSelect={(value: any) => {
                               if (isRangeMode) {
                                  const range = value as { from: Date | undefined; to: Date | undefined };
                                  setDateRange(range || { from: undefined, to: undefined });

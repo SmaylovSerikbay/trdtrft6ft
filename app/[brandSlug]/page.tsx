@@ -41,8 +41,8 @@ export default async function BrandRoute({ params }: PageProps) {
       <main>
         <Hero
           imageSrc={getHeroImage(heroImage)}
-          title={brand.name?.toUpperCase()}
-          description={brand.description?.toLowerCase()}
+          title={brand.name || ''}
+          description={brand.description || ''}
         />
         <BrandPage brand={brand} />
       </main>

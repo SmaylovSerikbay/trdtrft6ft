@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { Metadata } from "next";
 import { BrandForm } from "../components/BrandForm";
+import { Brand } from "../types";
 
 export const dynamic = 'force-dynamic';
 export const fetchCache = 'force-no-store';
@@ -16,7 +17,7 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-async function getBrand(id: string | null) {
+async function getBrand(id: string | null): Promise<Brand | null> {
   if (!id || id === 'new') return null;
 
   try {
@@ -36,14 +37,31 @@ async function getBrand(id: string | null) {
     };
 
     return {
-      ...dbBrand,
+      id: dbBrand.id,
+      name: dbBrand.name,
+      title: dbBrand.title || '',
+      description: dbBrand.description || '',
+      welcomeText: dbBrand.welcomeText || '',
+      address: dbBrand.address || '',
+      mapLink: dbBrand.mapLink || '',
+      phone: dbBrand.phone || '',
+      whatsapp: dbBrand.whatsapp || '',
+      email: dbBrand.email || '',
+      slug: dbBrand.slug,
+      heroImage: dbBrand.heroImage || '',
       workingHours: safeParseJSON(dbBrand.workingHours, { weekdays: "", weekends: "" }),
       mainGallery: safeParseJSON(dbBrand.mainGallery, []),
       navigationTags: safeParseJSON(dbBrand.navigationTags, []),
       brandHistory: safeParseJSON(dbBrand.brandHistory, { title: "", description: "" }),
       features: safeParseJSON(dbBrand.features, []),
       specialOffers: safeParseJSON(dbBrand.specialOffers, []),
-      bottomGallery: safeParseJSON(dbBrand.bottomGallery, [])
+      bottomGallery: safeParseJSON(dbBrand.bottomGallery, []),
+      gallery: {
+        title: dbBrand.title || '',
+        description: dbBrand.description || '',
+        images: safeParseJSON(dbBrand.mainGallery, [])
+      },
+      userId: dbBrand.userId || undefined
     };
   } catch (error) {
     console.error('Error loading brand:', error);
@@ -51,11 +69,9 @@ async function getBrand(id: string | null) {
   }
 }
 
-export default async function BrandPage({ params, searchParams }: PageProps) {
+export default async function BrandPage({ params }: PageProps) {
   const resolvedParams = await params;
-  const resolvedSearchParams = await searchParams;
-  const id = resolvedSearchParams?.id as string || resolvedParams.brandId;
-  const brand = await getBrand(id);
+  const brand = await getBrand(resolvedParams.brandId);
 
   return (
     <div className="p-6">

@@ -30,6 +30,7 @@ const tabs = [
 
 interface BrandFormProps {
   initialData?: Brand | null;
+  onSubmit?: (data: Brand) => Promise<void>;
 }
 
 const formSchema = z.object({
@@ -53,7 +54,7 @@ const formSchema = z.object({
   heroImage: z.string().optional()
 });
 
-export function BrandForm({ initialData }: BrandFormProps) {
+export function BrandForm({ initialData, onSubmit }: BrandFormProps) {
   const router = useRouter();
   const [data, setData] = useState<Brand>(initialData || createEmptyBrand());
   const [activeTab, setActiveTab] = useState<typeof tabs[number]["id"]>("main");
@@ -138,6 +139,13 @@ export function BrandForm({ initialData }: BrandFormProps) {
       'image/*': ['.jpeg', '.jpg', '.png', '.gif', '.webp']
     }
   });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (onSubmit) {
+      await onSubmit(data);
+    }
+  };
 
   return (
     <div className="flex h-full">

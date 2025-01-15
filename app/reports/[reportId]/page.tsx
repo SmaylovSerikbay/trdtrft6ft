@@ -97,12 +97,12 @@ export default function ReportPage({ params }: PageProps) {
       if (inView && !isLoading && displayedPhotos.length < photos.length) {
          const nextPhotos = photos.slice(0, (page + 1) * photosPerPage);
          setDisplayedPhotos(nextPhotos);
-         setPage(prev => prev + 1);
+         setPage((prev: number) => prev + 1);
       }
    }, [inView, photos, page, isLoading]);
 
    const handlePhotoSelect = (photoId: string) => {
-      setSelectedPhotos(prev => {
+      setSelectedPhotos((prev: Set<string>) => {
          const newSet = new Set(prev);
          if (newSet.has(photoId)) {
             newSet.delete(photoId);
@@ -115,10 +115,10 @@ export default function ReportPage({ params }: PageProps) {
 
    const handleDownloadSelected = async () => {
       try {
-         const selectedPhotosList = photos.filter(photo => selectedPhotos.has(photo.id));
+         const selectedPhotosList = photos.filter((photo: Photo) => selectedPhotos.has(photo.id));
          
          // Создаем все промисы для скачивания
-         const downloadPromises = selectedPhotosList.map(async (photo) => {
+         const downloadPromises = selectedPhotosList.map(async (photo: Photo) => {
             const response = await fetch(photo.url);
             const blob = await response.blob();
             const url = window.URL.createObjectURL(blob);
@@ -146,9 +146,11 @@ export default function ReportPage({ params }: PageProps) {
    };
 
    const handleDownloadAll = async () => {
+      if (!report) return null;
+
       try {
          await downloadFiles(
-            photos.map(photo => ({
+            photos.map((photo: Photo) => ({
                url: photo.url,
                name: photo.name
             })),
@@ -156,7 +158,7 @@ export default function ReportPage({ params }: PageProps) {
          );
          toast.success("Все файлы успешно скачаны");
       } catch (error) {
-         console.error('Error downloading files:', error);
+         console.error('Error downloading photos:', error);
          toast.error("Ошибка при скачивании файлов");
       }
    };
@@ -282,7 +284,7 @@ export default function ReportPage({ params }: PageProps) {
                   </div>
 
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mb-8">
-                     {displayedPhotos.map((photo) => (
+                     {displayedPhotos.map((photo: Photo) => (
                         <Dialog key={photo.id}>
                            <div className="group relative cursor-pointer">
                               <DialogTrigger asChild>
@@ -358,7 +360,7 @@ export default function ReportPage({ params }: PageProps) {
                         ref={ref}
                         className="flex justify-center py-8"
                      >
-                        <Loader className="h-6 w-6" />
+                        <div className="animate-spin h-6 w-6 border-2 border-gray-300 rounded-full border-t-gray-600" />
                      </div>
                   )}
 

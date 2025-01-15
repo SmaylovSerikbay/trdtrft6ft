@@ -17,7 +17,7 @@ export function MainHero({ image, brightness = 0.5, scrollerTexts = [] }: MainHe
     if (scrollerTexts.length <= 1) return;
 
     const interval = setInterval(() => {
-      setCurrentTextIndex((prev) => (prev + 1) % scrollerTexts.length);
+      setCurrentTextIndex((prev: number) => (prev + 1) % scrollerTexts.length);
     }, 3000);
 
     return () => clearInterval(interval);
@@ -31,7 +31,6 @@ export function MainHero({ image, brightness = 0.5, scrollerTexts = [] }: MainHe
         alt="Hero"
         fill
         className="object-cover"
-        priority
       />
       <div 
         className="absolute inset-0 bg-black" 

@@ -33,7 +33,7 @@ export function InteriorGallerySection({
       <div>
         <label className="block text-sm font-medium mb-1">Галерея интерьера</label>
         <div className="grid grid-cols-2 gap-4">
-          {bottomGallery.map((image, index) => (
+          {bottomGallery.map((image:string, index:number) => (
             <div key={index} className="relative">
               <ImageUpload
                 value={getImageUrl(image)}

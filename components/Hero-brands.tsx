@@ -64,7 +64,7 @@ export default function HeroBrands() {
           
         </div>
       </div>
-      <InfiniteScroller texts={heroData.scrollerTexts} />
+      <InfiniteScroller texts={heroData.scrollerTexts as never[]} />
     </section>
   );
 }

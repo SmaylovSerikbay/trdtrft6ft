@@ -48,7 +48,7 @@ export default function OurBrands({ brands }: OurBrandsProps) {
                      )}
                   >
                      <Image
-                        src={getImageUrl(brand.mainImage || brand.heroImage)}
+                        src={getImageUrl(brand.heroImage)}
                         width={270}
                         height={870}
                         className={cn(

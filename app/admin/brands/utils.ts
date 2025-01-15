@@ -12,6 +12,7 @@ export function createEmptyBrand(): Brand {
     whatsapp: "",
     email: "",
     slug: "",
+    heroImage: "",
     workingHours: {
       weekdays: "",
       weekends: ""
@@ -24,7 +25,12 @@ export function createEmptyBrand(): Brand {
     },
     features: [],
     specialOffers: [],
-    bottomGallery: []
+    bottomGallery: [],
+    gallery: {
+      title: "",
+      description: "",
+      images: []
+    }
   };
 }
 

@@ -1,11 +1,13 @@
 import { prisma } from "@/lib/prisma";
-import { PrismaAdapter } from "@auth/prisma-adapter";
 import { compare } from "bcryptjs";
-import NextAuth, { AuthOptions } from "next-auth";
+import type { AuthOptions, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-export const authOptions = {
-  adapter: PrismaAdapter(prisma),
+interface CustomUser extends User {
+  role: string;
+}
+
+export const authConfig: AuthOptions = {
   providers: [
     CredentialsProvider({
       name: "credentials",
@@ -13,7 +15,7 @@ export const authOptions = {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" }
       },
-      async authorize(credentials) {
+      async authorize(credentials): Promise<CustomUser | null> {
         if (!credentials?.email || !credentials?.password) {
           return null;
         }
@@ -24,13 +26,13 @@ export const authOptions = {
           }
         });
 
-        if (!user) {
+        if (!user?.password) {
           return null;
         }
 
         const isPasswordValid = await compare(
           credentials.password,
-          user.password ?? ''
+          user.password
         );
 
         if (!isPasswordValid) {
@@ -41,25 +43,31 @@ export const authOptions = {
           id: user.id,
           email: user.email,
           name: user.name,
-          role: user.role,
+          role: user.role
         };
       }
     })
   ],
   callbacks: {
-    async session({ session, user }: { session: any; user: any }) {
-      if (session?.user) {
-        session.user.role = user.role;
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+        token.role = (user as CustomUser).role;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.id = token.id as string;
+        session.user.role = token.role as string;
       }
       return session;
-    }
+    },
   },
   pages: {
-    signIn: '/admin/login',
+    signIn: '/login',
   },
   session: {
-    strategy: "jwt"
+    strategy: "jwt",
   },
-};
-
-export default NextAuth(authOptions as AuthOptions); 
+}; 

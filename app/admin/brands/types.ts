@@ -21,14 +21,25 @@ export interface Brand {
     title: string;
     description: string;
   };
-  features: Array<{
-    title: string;
-    description: string;
-  }>;
-  specialOffers: Array<{
-    title: string;
-    description: string;
-  }>;
+  features: Feature[];
+  specialOffers: SpecialOffer[];
   bottomGallery: string[];
   userId?: string;
+  gallery: Gallery;
+}
+
+export interface Feature {
+  title: string;
+  description: string;
+}
+
+export interface SpecialOffer {
+  title: string;
+  description: string;
+}
+
+export interface Gallery {
+  title: string;
+  description: string;
+  images: string[];
 } 

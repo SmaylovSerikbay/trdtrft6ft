@@ -6,18 +6,8 @@ import { ru } from "date-fns/locale";
 import { Pencil, Trash } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { PhotoReport } from "../types";
 import { ReportForm } from "./ReportForm";
-
-interface PhotoReport {
-    id: string;
-    title: string;
-    city: string;
-    venue: string;
-    photographer: string;
-    preview: string;
-    folderPath: string;
-    publishedAt: Date;
-}
 
 export function ReportsList() {
     const [reports, setReports] = useState<PhotoReport[]>([]);
@@ -28,12 +18,18 @@ export function ReportsList() {
         try {
             setIsLoading(true);
             const response = await fetch('/api/reports');
-            if (!response.ok) throw new Error('Failed to fetch reports');
             const data = await response.json();
-            setReports(data);
+            // Преобразуем данные в правильный формат
+            const reports: PhotoReport[] = data.map((report: any) => ({
+                ...report,
+                date: new Date(report.publishedAt || report.date),
+                images: report.images || [],
+                publishedAt: new Date(report.publishedAt || report.date)
+            }));
+            setReports(reports);
         } catch (error) {
-            console.error('Error:', error);
-            toast.error("Ошибка при загрузке репортажей");
+            console.error('Error fetching reports:', error);
+            toast.error('Ошибка при загрузке репортажей');
         } finally {
             setIsLoading(false);
         }
@@ -43,8 +39,8 @@ export function ReportsList() {
         fetchReports();
     }, []);
 
-    const handleDelete = async (id: string) => {
-        if (!confirm('Вы уверены, что хотите удалить этот репортаж?')) return;
+    const handleDelete = async (id: string | undefined) => {
+        if (!id || !confirm('Вы уверены, что хотите удалить этот репортаж?')) return;
 
         try {
             const response = await fetch(`/api/reports/${id}`, {
@@ -54,7 +50,7 @@ export function ReportsList() {
             if (!response.ok) throw new Error('Failed to delete report');
             
             toast.success("Репортаж удален");
-            fetchReports(); // Обновляем список
+            fetchReports();
         } catch (error) {
             console.error('Error:', error);
             toast.error("Ошибка при удалении репортажа");

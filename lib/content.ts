@@ -19,7 +19,8 @@ export async function getHeroSection(page: string): Promise<HeroSection | null> 
       },
     });
 
-    return heroSection;
+    if (!heroSection || !heroSection.image) return null;
+    return heroSection as HeroSection;
   } catch (error) {
     console.error("[GET_HERO_SECTION]", error);
     return null;

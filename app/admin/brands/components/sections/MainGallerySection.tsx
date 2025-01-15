@@ -32,7 +32,7 @@ export function MainGallerySection({
       <div>
         <label className="block text-sm font-medium mb-1">Основная галерея</label>
         <div className="grid grid-cols-2 gap-4">
-          {mainGallery.map((image, index) => (
+          {mainGallery.map((image:string, index:number) => (
             <div key={index} className="relative">
               <ImageUpload
                 value={getImageUrl(image)}

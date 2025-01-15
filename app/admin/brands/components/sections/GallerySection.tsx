@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ImageUpload } from "@/components/ui/ImageUpload";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Plus, X } from "lucide-react";
+import { Plus } from "lucide-react";
 import { Brand } from "../../types";
 
 interface GallerySectionProps {
@@ -72,16 +72,8 @@ export function GallerySection({ data, onChange }: GallerySectionProps) {
               <ImageUpload
                 value={image}
                 onChange={(url) => updateImage(index, url)}
+                onRemove={() => removeImage(index)}
               />
-              <Button
-                type="button"
-                variant="destructive"
-                size="icon"
-                className="absolute -top-2 -right-2"
-                onClick={() => removeImage(index)}
-              >
-                <X className="h-4 w-4" />
-              </Button>
             </div>
           ))}
         </div>

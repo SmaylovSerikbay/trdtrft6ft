@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 
 interface Anonce {
   id: string;
@@ -25,15 +25,22 @@ interface AnoncesFormProps {
   editingSection?: Section | null;
 }
 
+interface FormData {
+  header: string;
+  title: string;
+  text: string;
+  sectionId: string;
+}
+
 export function AnoncesForm({ 
   onClose, 
-  isNewSection, 
+  isNewSection: isNew = false,
   sectionId, 
   editingAnonce,
-  editingSection 
+  editingSection: editingSec = null
 }: AnoncesFormProps) {
-  const [formData, setFormData] = useState({
-    header: editingSection?.header || (isNewSection ? "Готовимся к захватывающему событию: уже [дата] мы ждем вас на [название мероприятия]. Вас ждут [основные элементы: мастер-классы, выступления, сюрпризы]!" : ""),
+  const [formData, setFormData] = useState<FormData>({
+    header: editingSec?.header || (isNew ? "Готовимся к захватывающему событию: уже [дата] мы ждем вас на [название мероприятия]. Вас ждут [основные элементы: мастер-классы, выступления, сюрпризы]!" : ""),
     title: "",
     text: "",
     sectionId: sectionId || "",
@@ -49,16 +56,16 @@ export function AnoncesForm({
     }
   }, [editingAnonce]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     
     try {
-      if (isNewSection || editingSection) {
-        const url = editingSection 
-          ? `/api/anonce-sections/${editingSection.id}`
+      if (isNew || editingSec) {
+        const url = editingSec 
+          ? `/api/anonce-sections/${editingSec.id}`
           : "/api/anonce-sections";
 
-        const method = editingSection ? "PUT" : "POST";
+        const method = editingSec ? "PUT" : "POST";
 
         const response = await fetch(url, {
           method,
@@ -68,15 +75,15 @@ export function AnoncesForm({
           body: JSON.stringify({ header: formData.header }),
         });
 
-        if (!response.ok) throw new Error(editingSection ? "Ошибка обновления секции" : "Ошибка создания секции");
+        if (!response.ok) throw new Error(editingSec ? "Ошибка обновления секции" : "Ошибка создания секции");
         
-        if (isNewSection) {
+        if (isNew) {
           const section = await response.json();
           formData.sectionId = section.id;
         }
       }
 
-      if (!editingSection) {
+      if (!editingSec) {
         const url = editingAnonce 
           ? `/api/anonces/${editingAnonce.id}`
           : "/api/anonces";
@@ -100,38 +107,48 @@ export function AnoncesForm({
     }
   };
 
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
+  };
+
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
       <div className="bg-white dark:bg-gray-800 p-6 rounded-lg w-full max-w-2xl">
         <h2 className="text-xl font-bold mb-4">
-          {editingSection ? "Редактировать секцию" : editingAnonce ? "Редактировать анонс" : isNewSection ? "Создать новую секцию" : "Добавить анонс"}
+          {editingSec ? "Редактировать секцию" : editingAnonce ? "Редактировать анонс" : isNew ? "Создать новую секцию" : "Добавить анонс"}
         </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
-          {(isNewSection || editingSection) && (
+          {(isNew || editingSec) && (
             <div>
               <label className="block text-sm font-medium mb-1">Заголовок секции</label>
               <Textarea
+                name="header"
                 value={formData.header}
-                onChange={(e) => setFormData({ ...formData, header: e.target.value })}
-                required={isNewSection || editingSection}
+                onChange={handleChange}
+                required={Boolean(isNew || editingSec)}
               />
             </div>
           )}
-          {!editingSection && (
+          {!editingSec && (
             <>
               <div>
                 <label className="block text-sm font-medium mb-1">Заголовок анонса</label>
                 <Input
+                  name="title"
                   value={formData.title}
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                  onChange={handleChange}
                   required
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium mb-1">Текст анонса</label>
                 <Textarea
+                  name="text"
                   value={formData.text}
-                  onChange={(e) => setFormData({ ...formData, text: e.target.value })}
+                  onChange={handleChange}
                   required
                 />
               </div>

@@ -18,7 +18,6 @@ export function BrandHero({ imageSrc, title, description }: BrandHeroProps) {
         alt={title}
         fill
         className="object-cover"
-        priority
       />
       <div className="absolute inset-0 bg-black/40" />
       <div className="absolute inset-0 flex flex-col items-center justify-center text-white">

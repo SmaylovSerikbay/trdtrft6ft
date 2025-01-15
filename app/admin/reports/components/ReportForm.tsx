@@ -32,6 +32,7 @@ import { CalendarIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
+import { PhotoReport } from "../types";
 
 const formSchema = z.object({
     title: z.string().min(1, "Обязательное поле"),
