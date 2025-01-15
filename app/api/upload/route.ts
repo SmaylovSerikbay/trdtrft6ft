@@ -15,20 +15,36 @@ export async function POST(request: Request) {
     const formData = await request.formData();
     const file = formData.get('file') as File;
     
+    if (!file) {
+      return new Response('No file provided', { status: 400 });
+    }
+
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
     
     const result = await new Promise<CloudinaryResponse>((resolve, reject) => {
       cloudinary.uploader.upload_stream({
         resource_type: 'auto',
+        folder: 'holy-melon',
       }, (error, result) => {
-        if (error) reject(error);
-        else resolve(result as CloudinaryResponse);
+        if (error) {
+          console.error('Cloudinary error:', error);
+          reject(error);
+        } else {
+          resolve(result as CloudinaryResponse);
+        }
       }).end(buffer);
     });
 
     return Response.json({ url: result.secure_url });
-  } catch (error) {
-    return new Response('Failed to upload file', { status: 500 });
+  } catch (error: any) {
+    console.error('Upload error:', error);
+    return new Response(
+      JSON.stringify({ 
+        error: 'Failed to upload file', 
+        details: error?.message || 'Unknown error'
+      }), 
+      { status: 500, headers: { 'Content-Type': 'application/json' } }
+    );
   }
 } 
