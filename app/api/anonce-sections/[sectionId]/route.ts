@@ -1,37 +1,43 @@
 import { prisma } from "@/lib/prisma";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
+
+type Context = {
+  params: {
+    sectionId: string;
+  };
+};
 
 export async function GET(
-  request: NextRequest,
-  context: { params: { sectionId: string } }
+  _req: NextRequest,
+  { params }: Context
 ) {
   try {
     const section = await prisma.anonceSection.findUnique({
       where: {
-        id: context.params.sectionId
+        id: params.sectionId
       },
       include: {
         anonces: true
       }
     });
 
-    return NextResponse.json(section);
+    return Response.json(section);
   } catch (error) {
     console.error("Error fetching section:", error);
-    return new NextResponse("Internal error", { status: 500 });
+    return new Response("Internal error", { status: 500 });
   }
 }
 
 export async function PUT(
-  request: NextRequest,
-  context: { params: { sectionId: string } }
+  req: NextRequest,
+  { params }: Context
 ) {
   try {
-    const json = await request.json();
+    const json = await req.json();
 
     const updatedSection = await prisma.anonceSection.update({
       where: {
-        id: context.params.sectionId
+        id: params.sectionId
       },
       data: {
         header: json.header,
@@ -45,27 +51,27 @@ export async function PUT(
       }
     });
 
-    return NextResponse.json(updatedSection);
+    return Response.json(updatedSection);
   } catch (error) {
     console.error("Error updating section:", error);
-    return new NextResponse("Internal error", { status: 500 });
+    return new Response("Internal error", { status: 500 });
   }
 }
 
 export async function DELETE(
-  request: NextRequest,
-  context: { params: { sectionId: string } }
+  _req: NextRequest,
+  { params }: Context
 ) {
   try {
     await prisma.anonceSection.delete({
       where: {
-        id: context.params.sectionId
+        id: params.sectionId
       }
     });
 
-    return new NextResponse(null, { status: 204 });
+    return new Response(null, { status: 204 });
   } catch (error) {
     console.error("Error deleting section:", error);
-    return new NextResponse("Internal error", { status: 500 });
+    return new Response("Internal error", { status: 500 });
   }
 } 
