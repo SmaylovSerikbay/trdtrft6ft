@@ -52,7 +52,7 @@ export function ImageUpload({ value, onChange, onRemove }: ImageUploadProps) {
     if (url.startsWith('/')) {
       return url;
     }
-    return `/uploads/${url}`;
+    return `${url}`;
   };
 
   return (
