@@ -94,7 +94,7 @@ export default function AboutUs() {
                     alt="2GIS"
                   />
                   <div>
-                    <p className="text-base">Мы в 2GIS</p>
+                    <p className="text-base">Мы в Tik-tok</p>
                     <a
                       href={aboutData.gisLink}
                       target="_blank"
