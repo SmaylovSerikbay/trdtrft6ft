@@ -46,13 +46,24 @@ export function ImageUpload({ value, onChange, onRemove }: ImageUploadProps) {
   // Функция для получения URL изображения
   const getImageUrl = (url: string | null): string => {
     if (!url || url === '') return '/placeholder.jpg';
+    
+    // Если это Cloudinary URL, возвращаем как есть
+    if (url.includes('cloudinary.com')) {
+      return url;
+    }
+    
+    // Если начинается с http или https, возвращаем как есть
     if (url.startsWith('http://') || url.startsWith('https://')) {
       return url;
     }
+    
+    // Если начинается с /, возвращаем как есть
     if (url.startsWith('/')) {
       return url;
     }
-    return `${url}`;
+    
+    // Для локальных файлов добавляем /uploads/
+    return `/uploads/${url}`;
   };
 
   return (
