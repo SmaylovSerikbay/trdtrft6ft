@@ -9,7 +9,10 @@
       "use": "@vercel/next",
       "config": {
         "lint": false,
-        "skipLockfileCheck": true
+        "skipLockfileCheck": true,
+        "postgres": {
+          "enabled": true
+        }
       }
     }
   ]
