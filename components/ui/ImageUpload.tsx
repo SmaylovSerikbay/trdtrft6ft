@@ -14,9 +14,7 @@ interface ImageUploadProps {
 export function ImageUpload({ value, onChange, onRemove }: ImageUploadProps) {
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     const formData = new FormData();
-    acceptedFiles.forEach(file => {
-      formData.append('files', file);
-    });
+    formData.append('file', acceptedFiles[0]);
 
     try {
       const response = await fetch('/api/upload', {
@@ -27,8 +25,8 @@ export function ImageUpload({ value, onChange, onRemove }: ImageUploadProps) {
       if (!response.ok) throw new Error('Upload failed');
 
       const result = await response.json();
-      if (result.success && result.files.length > 0) {
-        onChange(result.files[0]); // Берем первый загруженный файл
+      if (result.url) {
+        onChange(result.url);
       }
     } catch (error) {
       console.error('Upload error:', error);
