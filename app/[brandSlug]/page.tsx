@@ -6,14 +6,14 @@ import { getBrandBySlug } from "@/lib/brands";
 import "@/styles/styles.css";
 import { notFound } from "next/navigation";
 
-interface PageProps {
-  params: {
-    brandSlug: string;
-  };
+type Props = {
+  params: { brandSlug: string }
+  searchParams: { [key: string]: string | string[] | undefined }
 }
 
-export default async function BrandRoute({ params }: PageProps) {
-  const { brandSlug } = params;
+export default async function BrandRoute({ params }: Props) {
+  const resolvedParams = await Promise.resolve(params);
+  const brandSlug = resolvedParams.brandSlug;
 
   if (!brandSlug) {
     notFound();
