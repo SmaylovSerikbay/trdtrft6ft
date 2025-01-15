@@ -7,7 +7,7 @@ export const fetchCache = 'force-no-store';
 
 interface PageProps {
   params: Promise<{ brandId: string }>;
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -26,7 +26,6 @@ async function getBrand(id: string | null) {
 
     if (!dbBrand) return null;
 
-    // Функция для безопасного парсинга JSON
     const safeParseJSON = <T,>(data: any, defaultValue: T): T => {
       if (!data) return defaultValue;
       try {
@@ -52,9 +51,11 @@ async function getBrand(id: string | null) {
   }
 }
 
-export default async function BrandPage({ params }: PageProps) {
+export default async function BrandPage({ params, searchParams }: PageProps) {
   const resolvedParams = await params;
-  const brand = await getBrand(resolvedParams.brandId);
+  const resolvedSearchParams = await searchParams;
+  const id = resolvedSearchParams?.id as string || resolvedParams.brandId;
+  const brand = await getBrand(id);
 
   return (
     <div className="p-6">
