@@ -1,48 +1,73 @@
 import { prisma } from "@/lib/prisma";
-import { NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 
-export async function DELETE(
-  request: Request,
-  { params }: { params: { sectionId: string } }
-) {
+type Params = { sectionId: string };
+
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Params }
+): Promise<Response> {
   try {
-    await prisma.anonceSection.delete({
+    const section = await prisma.anonceSection.findUnique({
       where: {
-        id: params.sectionId,
+        id: params.sectionId
       },
+      include: {
+        anonces: true
+      }
     });
 
-    return new NextResponse(null, { status: 204 });
+    return Response.json(section);
   } catch (error) {
-    console.error("Error deleting section:", error);
-    return new NextResponse(
-      JSON.stringify({ error: "Error deleting section" }), 
-      { status: 500 }
-    );
+    console.error("Error fetching section:", error);
+    return new Response("Internal error", { status: 500 });
   }
 }
 
 export async function PUT(
-  request: Request,
-  { params }: { params: { sectionId: string } }
-) {
+  request: NextRequest,
+  { params }: { params: Params }
+): Promise<Response> {
   try {
     const json = await request.json();
-    const section = await prisma.anonceSection.update({
+
+    const updatedSection = await prisma.anonceSection.update({
       where: {
-        id: params.sectionId,
+        id: params.sectionId
       },
       data: {
         header: json.header,
+        anonces: {
+          deleteMany: {},
+          create: json.anonces
+        }
       },
+      include: {
+        anonces: true
+      }
     });
 
-    return NextResponse.json(section);
+    return Response.json(updatedSection);
   } catch (error) {
     console.error("Error updating section:", error);
-    return new NextResponse(
-      JSON.stringify({ error: "Error updating section" }), 
-      { status: 500 }
-    );
+    return new Response("Internal error", { status: 500 });
   }
-} 
+}
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Params }
+): Promise<Response> {
+  try {
+    await prisma.anonceSection.delete({
+      where: {
+        id: params.sectionId
+      }
+    });
+
+    return new Response(null, { status: 204 });
+  } catch (error) {
+    console.error("Error deleting section:", error);
+    return new Response("Internal error", { status: 500 });
+  }
+}
