@@ -5,10 +5,11 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "vercel-build": "mkdir -p public/uploads && next build",
     "start": "next start",
     "lint": "next lint",
     "create-admin": "ts-node --project tsconfig.node.json scripts/create-admin.ts",
-    "postinstall": "ts-node scripts/create-placeholders.ts && mkdir -p public/uploads",
+    "postinstall": "prisma generate",
     "update-slugs": "ts-node --project tsconfig.node.json scripts/update-brand-slugs.ts",
     "create-placeholders": "ts-node --project tsconfig.node.json scripts/create-placeholders.ts",
     "fix-json": "ts-node --project tsconfig.node.json scripts/fix-json-data.ts"
