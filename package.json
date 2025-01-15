@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build --no-lint",
-    "vercel-build": "mkdir -p public/uploads && prisma generate && prisma db push --accept-data-loss && next build --no-lint",
+    "vercel-build": "mkdir -p public/uploads && POSTGRES_URL_NON_POOLING=$POSTGRES_URL_NON_POOLING prisma generate && POSTGRES_URL_NON_POOLING=$POSTGRES_URL_NON_POOLING prisma db push --accept-data-loss && next build --no-lint",
     "start": "next start",
     "lint": "next lint",
     "update-lock": "pnpm install --no-frozen-lockfile",
