@@ -1,15 +1,9 @@
 import { prisma } from "@/lib/prisma";
 import { NextRequest } from "next/server";
 
-type Context = {
-  params: {
-    sectionId: string;
-  };
-};
-
 export async function GET(
-  _req: NextRequest,
-  { params }: Context
+  request: NextRequest,
+  { params }: { params: { sectionId: string } }
 ) {
   try {
     const section = await prisma.anonceSection.findUnique({
@@ -29,11 +23,11 @@ export async function GET(
 }
 
 export async function PUT(
-  req: NextRequest,
-  { params }: Context
+  request: NextRequest,
+  { params }: { params: { sectionId: string } }
 ) {
   try {
-    const json = await req.json();
+    const json = await request.json();
 
     const updatedSection = await prisma.anonceSection.update({
       where: {
@@ -59,8 +53,8 @@ export async function PUT(
 }
 
 export async function DELETE(
-  _req: NextRequest,
-  { params }: Context
+  request: NextRequest,
+  { params }: { params: { sectionId: string } }
 ) {
   try {
     await prisma.anonceSection.delete({
