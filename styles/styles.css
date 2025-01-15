@@ -1,0 +1,1044 @@
+.hero-img {
+   position: relative;
+}
+
+.hero-img img {
+   filter: brightness(61%); /* 100% - 39% = 61% */
+   text-align: center;
+   line-height: 55px;
+ }
+
+.hero-title {
+   display: flex;
+   flex-direction: column;
+   text-align: center;
+   gap: 54px;
+   position: absolute;
+   top: 41.5%;
+   left: 16%;
+   color: #fff !important;
+}
+
+.hero-title h1 {
+   font-family: Aeroport;
+   font-size: calc(32px + (110 - 32) * ((100vw - 375px) / (1920 - 375)));
+   font-weight: 700;
+
+}
+
+.hero-title p {
+   font-family: Aeroport;
+   font-size: calc(14px + (54 - 14) * ((100vw - 375px) / (1920 - 375)));
+   font-weight: 400;
+} 
+
+.aho-block {
+   margin-top: 5%;
+   margin-inline: auto;
+   padding-inline: 1.15%;
+
+   max-width: 1740px;
+}
+
+.aho-section {
+   display: flex;
+}
+
+.aho-section > div {
+   width: 50% !important;
+}
+
+.aho-top-section {
+   display: flex;
+   flex-direction: column;
+   gap: 16px; /* Отступы между блоками */
+   padding-inline: 4.69%;
+}
+
+.restaurant-info {
+   font-family: "Arial", sans-serif;
+   line-height: 1.6;
+   color: #333;
+   color: inherit;
+}
+
+.breadcrumbs {
+   font-family: "Aeroport", sans-serif;
+   font-size: 16px;
+   font-weight: 700;
+   margin-bottom: 10px;
+   margin-bottom: 78px;
+}
+
+.category-stars img {
+   max-width: 61px;
+   width: 100%;
+   height: auto;
+   margin-bottom: 10px;
+}
+
+.restaurant-title {
+   font-family: "Aeroport", sans-serif;
+   font-size: clamp(24px, 3vw, 48px);
+   font-weight: 700;
+   line-height: 1.2;
+   margin-bottom: 8px;
+}
+
+.restaurant-subtitle {
+   color: #000;
+   margin-bottom: 20px;
+   font-family: Aeroport;
+   font-size: 16px;
+   font-weight: 400;
+   line-height: 24px;
+   text-align: left;
+}
+
+.restaurant-description {
+   font-size: 20px;
+   font-family: "Aeroport", sans-serif;
+   line-height: 1.5;
+   margin-bottom: 20px;
+}
+
+.restaurant-address,
+.restaurant-link,
+.restaurant-contacts,
+.restaurant-hours {
+   display: flex;
+   gap: 18px; /* Отступ между иконкой и текстом */
+   font-size: 16px;
+   margin-bottom: 12px;
+}
+
+.restaurant-links {
+   display: flex;
+   flex-direction: column;
+   gap: 24px;
+   margin-top: 20px;
+}
+
+.restaurant-address img,
+.restaurant-link img,
+.restaurant-contacts img,
+.restaurant-hours img {
+   width: 30px; /* Размер иконок */
+   height: 30px;
+}
+.restaurant-contacts a,
+.restaurant-link a {
+   color: #11e609;
+}
+
+.work-time {
+   width: 434px;
+   max-height: 103px;
+   height: 100%;
+   border: 1px solid #ddd;
+   border-radius: 18px;
+   padding: 22px 25px;
+}
+
+.work-time p {
+   display: flex;
+   justify-content: space-between;
+   gap: 15px;
+}
+.restaurant-contacts div,
+.restaurant-hours div {
+   display: flex;
+   flex-direction: column;
+}
+
+.restaurant-hours > div {
+   display: flex;
+   flex-direction: column;
+   gap: 15px;
+}
+
+/* SWIPER */
+
+img {
+   object-position: center; /* Центрирует изображение по вертикали и горизонтали */
+}
+
+.swiper-block {
+   display: flex;
+   justify-content: space-between;
+   max-width: 1007px;
+   width: 100% !important;
+   height: 100% !important;
+   position: relative;
+}
+
+.mySwiper {
+   max-width: 230px;
+   max-height: 564px;
+   width: 100% !important;
+   height: 100% !important;
+   width: 20%;
+}
+
+.mySwiper2 {
+   max-width: 777px !important;
+   max-height: 488px !important;
+   height: 100% !important;
+   width: 100% !important;
+   position: static;
+   width: 75%;
+}
+
+.mySwiper2 .swiper-wrapper {
+   max-width: 777px !important;
+   max-height: 488px !important;
+   height: 100% !important;
+   width: 100% !important;
+}
+
+.mySwiper .swiper-wrapper {
+   display: flex;
+   flex-direction: column;
+   gap: 16px;
+   align-items: end;
+}
+
+.mySwiper2 .swiper-wrapper .swiper-slide {
+   border-radius: 30px;
+}
+
+.mySwiper2 .swiper-wrapper .swiper-slide img {
+   object-position: center; /* Центрирует изображение по вертикали и горизонтали */
+   object-fit: cover;
+   max-width: 777px !important;
+   max-height: 488px !important;
+   height: 100% !important;
+   width: 100% !important;
+   border-radius: 50px;
+}
+
+.mySwiper .swiper-wrapper .swiper-slide {
+   max-width: 203px !important;
+   max-height: 100px !important;
+   width: 100% !important;
+   margin-right: 0 !important;
+}
+
+.mySwiper .swiper-wrapper .swiper-slide img {
+   max-width: 203px;
+   max-height: 100px;
+   width: 100% !important;
+   height: 100% !important;
+   border-radius: 20px;
+   object-fit: cover;
+   object-position: center; /* Центрирует изображение по вертикали и горизонтали */
+}
+.swiper-button-next,
+.swiper-button-prev {
+   border: 5px solid #dfdfdf !important;
+   border-radius: 30px !important;
+   width: 60px;
+   height: 60px;
+   top: 93% !important;
+   z-index: 10; /* Кнопки будут сверху */
+   background-color: #fff;
+}
+
+.swiper-button-prev {
+   left: 25%;
+}
+
+.swiper-button-next {
+   left: 43%;
+}
+
+.swiper-button-prev:after,
+.swiper-rtl .swiper-button-next:after {
+   content: url("/AHO-restaurant/arrow-left.png");
+}
+
+.swiper-button-next:after,
+.swiper-rtl .swiper-button-prev:after {
+   content: url("/AHO-restaurant/arrow-right.png");
+}
+
+@media (max-width: 1400px) {
+   .hero-title {
+      gap: 34px;
+      left: 11%;
+   }
+
+   .aho-section {
+      flex-direction: column-reverse; /* Элементы сверху вниз, но перевернуто */
+      align-items: center; /* Центровка по горизонтали */
+      gap: 100px;
+   }
+
+   .swiper-block {
+      flex-direction: column-reverse; /* Элементы сверху вниз, но перевернуто */
+      align-items: center; /* Центровка по горизонтали */
+   }
+
+   .aho-section > div {
+      width: 100% !important;
+   }
+
+   .mySwiper {
+      margin-bottom: 20px; /* Отступ между каруселью и главным блоком */
+      max-width: 100%;
+      max-height: 100%;
+      width: 100% !important;
+      height: 100% !important;
+   }
+
+   .mySwiper2 {
+      margin-inline: auto;
+      width: 90% !important;
+   }
+
+   .mySwiper > .swiper-wrapper {
+      flex-direction: row; /* Выстраивает изображения в строку */
+      justify-content: center; /* Центрирует их */
+      max-width: auto !important;
+      width: 100% !important;
+      gap: 6px;
+   }
+
+   .mySwiper > .swiper-slide img {
+      max-width: 100px; /* Пропорционально уменьшает изображение */
+
+      height: auto; /* Сохраняет пропорции */
+   }
+
+   .mySwiper2 .swiper-wrapper .swiper-slide img {
+      border-radius: 30px;
+   }
+
+   .mySwiper > .swiper-wrapper > .swiper-slide > img {
+      border-radius: 10px !important;
+   }
+
+   .swiper-button-next,
+   .swiper-button-prev {
+      top: 107% !important;
+   }
+
+   .swiper-button-prev {
+      left: 40%;
+   }
+
+   .swiper-button-next {
+      left: 52%;
+   }
+
+   .aho-bottom-section {
+      flex-direction: column;
+   }
+}
+
+@media (max-width: 768px) {
+   .hero-title {
+      gap: 12px;
+      top: 32%;
+      left: 13%;
+   }
+
+   .mySwiper > .swiper-wrapper > .swiper-slide,
+   .mySwiper > .swiper-wrapper > .swiper-slide > img {
+      max-width: 93px !important;
+      max-height: 56px !important;
+   }
+
+   .mySwiper2 {
+      height: 300px !important;
+   }
+
+   .swiper-button-prev {
+      left: 30%;
+   }
+
+   .swiper-button-next {
+      left: 55%;
+   }
+}
+
+/* bottom */
+
+.aho-bottom-section {
+   display: flex;
+   justify-content: space-between;
+   margin-top: 60px;
+}
+
+/* brand-history */
+
+.brand-history {
+   display: flex;
+   flex-direction: column;
+   gap: 25px;
+   font-family: serif;
+   text-align: left;
+   padding: 25px;
+   padding-inline: 4.69%;
+}
+
+.brand-history h1 {
+   font-family: Aeroport;
+   font-size: 48px;
+   font-weight: 700;
+   line-height: 72px;
+   text-align: left;
+   text-underline-position: from-font;
+   text-decoration-skip-ink: none;
+}
+
+.brand-history p {
+   font-family: Aeroport;
+   font-size: 20px;
+   font-weight: 400;
+   line-height: 30px;
+   text-align: left;
+   text-underline-position: from-font;
+   text-decoration-skip-ink: none;
+}
+
+/* Базовые стили */
+
+/* .container {
+   width: 90%;
+   margin: 0 auto;
+   padding: 20px 0;
+} */
+
+/* Стили для блоков */
+.features,
+.special-offers {
+   margin-bottom: 20px;
+}
+
+.special-offers h2 {
+   font-family: Aeroport;
+   font-size: 30px;
+   font-weight: 700;
+   line-height: 45px;
+   text-align: left;
+   text-underline-position: from-font;
+   text-decoration-skip-ink: none;
+   border-radius: 12px;
+}
+
+.feature-item {
+   font-family: Aeroport;
+   font-size: 20px;
+   font-weight: 400;
+   line-height: 30px;
+   text-align: left;
+   text-underline-position: from-font;
+   text-decoration-skip-ink: none;
+}
+
+.feature-item,
+.offer-item {
+   border: 1px solid #ddd;
+   margin: 10px 0;
+   padding: 15px;
+}
+
+.offer-item {
+   border: 1px solid #ddd;
+   border-left: 0;
+   border-right: 0;
+   border-bottom: 0;
+   padding-left: 0;
+}
+
+.feature-item h3,
+.offer-item h3 {
+   margin: 0 0 5px;
+   font-size: 1.1em;
+}
+
+.feature-item p {
+   font-family: Aeroport;
+   font-size: 14px;
+   font-weight: 300;
+   line-height: 21px;
+   text-align: left;
+   text-underline-position: from-font;
+   text-decoration-skip-ink: none;
+}
+
+.feature-item p,
+.offer-item p {
+   margin: 0;
+   font-size: 0.9em;
+   color: #666;
+}
+
+/* Галерея */
+.gallery {
+   display: grid;
+   grid-template-columns: repeat(2, 1fr);
+   gap: 10px;
+   grid-auto-rows: auto !important;
+}
+
+.gallery-item img {
+   width: 100%;
+   border-radius: 8px;
+}
+
+.gallery-item.large {
+   grid-column: span 2;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+   .feature-item h3,
+   .offer-item h3 {
+      font-size: 1em;
+   }
+
+   .feature-item p,
+   .offer-item p {
+      font-size: 0.8em;
+   }
+
+   .brand-history h1 {
+      font-size: 36px;
+   }
+   .brand-history p {
+      font-size: 16px;
+   }
+}
+
+@media (max-width: 532px) {
+   .work-time {
+      max-width: 434px;
+      max-height: 103px;
+      width: 100%;
+      height: 100%;
+      max-height: 160px;
+   }
+
+   .hero-title {
+      gap: 6px;
+      top: 25%;
+      left: 9%;
+  }
+}
+
+@media (max-width: 416px) {
+   .hero-title {
+      gap: 2px;
+      left: 6%;
+  }
+}
+
+.restaurant-title,
+.restaurant-subtitle,
+.restaurant-description,
+.restaurant-address,
+.restaurant-link p,
+.restaurant-contacts p,
+.restaurant-hours p,
+.special-offers h2,
+.feature-item h3,
+.offer-item h3,
+.feature-item p,
+.offer-item p {
+   color: inherit; /* Inherit color from parent */
+}
+
+.aho-block {
+   position: relative;
+   color: #000; /* Default text color */
+}
+
+.dark .aho-block {
+   color: #fff; /* Text color for dark mode */
+}
+
+/* Специальные предложения */
+.special-offers {
+  padding: 60px 0;
+}
+
+.special-offers h2 {
+  font-family: Aeroport;
+  font-size: 42px;
+  font-weight: 700;
+  margin-bottom: 40px;
+}
+
+.offers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 32px;
+}
+
+.offer-item {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 32px;
+  transition: all 0.3s ease;
+}
+
+.offer-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.offer-item h3 {
+  font-family: Aeroport;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: inherit;
+}
+
+.offer-item p {
+  font-family: Aeroport;
+  font-size: 16px;
+  line-height: 1.6;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+/* Галерея */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin-top: 60px;
+}
+
+.gallery-item {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  aspect-ratio: 16/9;
+  cursor: pointer;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.gallery-item::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.5));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.gallery-item:hover img {
+  transform: scale(1.05);
+}
+
+.gallery-item:hover::after {
+  opacity: 1;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .special-offers h2 {
+    font-size: 32px;
+    margin-bottom: 32px;
+  }
+
+  .offers-grid {
+    gap: 24px;
+  }
+
+  .offer-item {
+    padding: 24px;
+  }
+
+  .gallery {
+    gap: 16px;
+    margin-top: 40px;
+  }
+}
+
+/* Темная тема */
+.dark .offer-item {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark .offer-item p {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Новый стиль для страницы бренда */
+.brand-page {
+  max-width: 1740px;
+  margin: 0 auto;
+  padding: 0 4.69%;
+}
+
+/* Новый хедер бренда */
+.brand-header {
+  position: relative;
+  padding: 120px 0 60px;
+  text-align: center;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.05) 100%);
+}
+
+.brand-header h1 {
+  font-size: 64px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 24px;
+  background: linear-gradient(45deg, #000, #333);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.dark .brand-header h1 {
+  background: linear-gradient(45deg, #fff, #999);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.brand-header p {
+  font-size: 20px;
+  line-height: 1.6;
+  max-width: 800px;
+  margin: 0 auto;
+  opacity: 0.8;
+}
+
+/* Информационные карточки */
+.info-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin: 60px 0;
+}
+
+.info-card {
+  padding: 32px;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+}
+
+.dark .info-card {
+  background: rgba(255, 255, 255, 0.03);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+}
+
+.info-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* Секция истории */
+.history-section {
+  padding: 100px 0;
+  text-align: center;
+  background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.02) 100%);
+}
+
+.dark .history-section {
+  background: linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.02) 100%);
+}
+
+.history-section h2 {
+  font-size: 48px;
+  font-weight: 700;
+  margin-bottom: 40px;
+  letter-spacing: -0.02em;
+}
+
+.history-content {
+  max-width: 800px;
+  margin: 0 auto;
+  font-size: 18px;
+  line-height: 1.8;
+  opacity: 0.9;
+}
+
+/* Особенности */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 32px;
+  padding: 80px 0;
+}
+
+.feature-card {
+  padding: 40px;
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+}
+
+.dark .feature-card {
+  background: rgba(255, 255, 255, 0.02);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* Специальные предложения */
+.offers-section {
+  padding: 80px 0;
+  background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.02) 100%);
+}
+
+.dark .offers-section {
+  background: linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.02) 100%);
+}
+
+.offers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 32px;
+}
+
+.offer-card {
+  position: relative;
+  padding: 40px;
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.dark .offer-card {
+  background: rgba(255, 255, 255, 0.02);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+}
+
+.offer-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #11e609, #0ea507);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.offer-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.offer-card:hover::before {
+  opacity: 1;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .brand-header {
+    padding: 80px 0 40px;
+  }
+
+  .brand-header h1 {
+    font-size: 48px;
+  }
+
+  .brand-header p {
+    font-size: 18px;
+  }
+
+  .history-section h2 {
+    font-size: 36px;
+  }
+
+  .feature-card,
+  .offer-card {
+    padding: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .brand-header h1 {
+    font-size: 36px;
+  }
+
+  .brand-header p {
+    font-size: 16px;
+  }
+
+  .info-card,
+  .feature-card,
+  .offer-card {
+    padding: 24px;
+  }
+}
+
+/* Стили для секции брендов */
+.venues-section {
+  max-width: 1740px;
+  margin: 113px auto 610px;
+  padding: 0 20px;
+}
+
+.venues-title {
+  font-family: Aeroport;
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+.venues-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(325px, 1fr));
+  gap: 41px;
+}
+
+.venue-card {
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.venue-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.venue-image {
+  position: relative;
+  width: 100%;
+  height: 309px;
+  border-radius: 40px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.venue-card:hover .venue-image {
+  transform: translateY(-5px);
+}
+
+.venue-info {
+  padding: 16px 0 60px;
+}
+
+.venue-info h3 {
+  font-family: Aeroport;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.dark .venue-info h3 {
+  color: white;
+}
+
+.venue-location {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.venue-address {
+  font-family: Aeroport;
+  font-size: 14px;
+  color: #555;
+}
+
+.dark .venue-address {
+  color: white;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .venues-section {
+    margin: 60px auto 300px;
+  }
+
+  .venues-title {
+    font-size: 28px;
+  }
+
+  .venues-grid {
+    gap: 24px;
+  }
+
+  .venue-image {
+    height: 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .venues-section {
+    margin: 40px auto 200px;
+  }
+
+  .venues-title {
+    font-size: 24px;
+  }
+
+  .venue-image {
+    height: 200px;
+  }
+
+  .venue-info {
+    padding: 12px 0 40px;
+  }
+}
+
+/* Стили для бегущей строки */
+.scroller {
+  display: flex;
+  animation: scroll 50s linear infinite;
+  white-space: nowrap;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Контейнер для бегущей строки */
+.scroller-container {
+  width: 100%;
+  overflow: hidden;
+  background: #000;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Элементы бегущей строки */
+.scroller-item {
+  display: flex;
+  align-items: center;
+  padding: 1rem 2rem;
+  gap: 1.5rem;
+}
+
+.scroller-text {
+  color: white;
+  text-transform: uppercase;
+  font-size: 1.125rem;
+  white-space: nowrap;
+}
+
+/* Темная тема */
+.dark .scroller-container {
+  border-color: rgba(255, 255, 255, 0.05);
+}
