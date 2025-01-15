@@ -6,8 +6,8 @@ export const dynamic = 'force-dynamic';
 export const fetchCache = 'force-no-store';
 
 interface PageProps {
+  params: Promise<{ brandId: string }>;
   searchParams: { [key: string]: string | string[] | undefined };
-  params: { brandId: string };
 }
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -52,9 +52,13 @@ async function getBrand(id: string | null) {
   }
 }
 
-export default async function Page({ searchParams, params }: PageProps) {
-  const id = searchParams?.id as string || params?.brandId;
-  const brand = await getBrand(id);
+export default async function BrandPage({ params }: PageProps) {
+  const resolvedParams = await params;
+  const brand = await getBrand(resolvedParams.brandId);
 
-  return <BrandForm initialData={brand} />;
+  return (
+    <div className="p-6">
+      <BrandForm initialData={brand} />
+    </div>
+  );
 } 
