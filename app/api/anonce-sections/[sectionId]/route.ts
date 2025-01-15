@@ -1,20 +1,14 @@
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
-interface RouteParams {
-  params: {
-    sectionId: string;
-  };
-}
-
 export async function GET(
   request: NextRequest,
-  { params }: RouteParams
+  context: { params: { sectionId: string } }
 ) {
   try {
     const section = await prisma.anonceSection.findUnique({
       where: {
-        id: params.sectionId
+        id: context.params.sectionId
       },
       include: {
         anonces: true
@@ -30,14 +24,14 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: RouteParams
+  context: { params: { sectionId: string } }
 ) {
   try {
     const json = await request.json();
 
     const updatedSection = await prisma.anonceSection.update({
       where: {
-        id: params.sectionId
+        id: context.params.sectionId
       },
       data: {
         header: json.header,
@@ -60,12 +54,12 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: RouteParams
+  context: { params: { sectionId: string } }
 ) {
   try {
     await prisma.anonceSection.delete({
       where: {
-        id: params.sectionId
+        id: context.params.sectionId
       }
     });
 
