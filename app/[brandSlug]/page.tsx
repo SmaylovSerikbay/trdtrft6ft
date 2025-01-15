@@ -5,16 +5,18 @@ import Hero from "@/components/Hero-restaurant";
 import { getBrandBySlug } from "@/lib/brands";
 import "@/styles/styles.css";
 import { notFound } from "next/navigation";
-export default async function BrandRoute({
-  params,
-}: {
-  params: { brandSlug: string };
-}) {
-  const resolvedParams = await Promise.resolve(params);
-  const brandSlug = resolvedParams.brandSlug;
+
+interface PageProps {
+  params: {
+    brandSlug: string;
+  };
+}
+
+export default async function BrandRoute({ params }: PageProps) {
+  const { brandSlug } = params;
 
   if (!brandSlug) {
-    return notFound();
+    notFound();
   }
 
   const brand = await getBrandBySlug(brandSlug);
