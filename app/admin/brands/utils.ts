@@ -62,24 +62,16 @@ export function isValidImageUrl(url: string): boolean {
   }
 }
 
-export function getImageUrl(url: string | null | undefined): string {
-  if (!url || typeof url !== 'string' || url.trim() === '') {
-    return '/images/placeholder.jpg';
+export function getImageUrl(path: string | null) {
+  if (!path) return '';
+  
+  // Если URL начинается с http или https - возвращаем как есть
+  if (path.startsWith('http')) {
+    return path;
   }
-
-  const trimmedUrl = url.trim();
-
-  // Если URL уже содержит полный путь, возвращаем как есть
-  if (trimmedUrl.startsWith('data:') || 
-      trimmedUrl.startsWith('blob:') || 
-      trimmedUrl.startsWith('http://') || 
-      trimmedUrl.startsWith('https://') ||
-      trimmedUrl.startsWith('/')) {
-    return trimmedUrl;
-  }
-
-  // Добавляем префикс /uploads/ только если его нет
-  return `/uploads/${trimmedUrl}`;
+  
+  // Иначе добавляем /uploads/
+  return `/uploads/${path}`;
 }
 
 export function parseJsonField<T>(field: unknown, defaultValue: T): T {
