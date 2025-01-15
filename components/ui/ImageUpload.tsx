@@ -33,7 +33,7 @@ export function ImageUpload({ value, onChange, onRemove }: ImageUploadProps) {
     }
   }, [onChange]);
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+  const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     accept: {
       'image/*': ['.jpeg', '.jpg', '.png', '.gif', '.webp']
@@ -41,44 +41,33 @@ export function ImageUpload({ value, onChange, onRemove }: ImageUploadProps) {
     maxFiles: 1
   });
 
-  // Функция для получения URL изображения
   const getImageUrl = (url: string | null): string => {
     if (!url || url === '') return '/placeholder.jpg';
     
-    // Если это Cloudinary URL, возвращаем как есть
-    if (url.includes('cloudinary.com')) {
-      return url;
+    console.log('Processing URL:', url);
+    
+    // Если URL уже содержит полный путь к Cloudinary
+    if (url.includes('res.cloudinary.com')) {
+      // Убираем возможный префикс /uploads/
+      const cleanUrl = url.replace('/uploads/', '');
+      // Убеждаемся, что используется https
+      const secureUrl = cleanUrl.replace('http:', 'https:');
+      console.log('Returning Cloudinary URL:', secureUrl);
+      return secureUrl;
     }
     
-    // Если начинается с http или https, возвращаем как есть
-    if (url.startsWith('http://') || url.startsWith('https://')) {
-      return url;
-    }
-    
-    // Если начинается с /, возвращаем как есть
-    if (url.startsWith('/')) {
-      return url;
-    }
-    
-    // Для локальных файлов добавляем /uploads/
-    return `/uploads/${url}`;
+    // Для локальных файлов
+    const localUrl = `/uploads/${url.replace(/^\/+/, '')}`;
+    console.log('Returning local URL:', localUrl);
+    return localUrl;
   };
 
   return (
     <div className="relative">
-      <div
-        {...getRootProps()}
-        className="border-2 border-dashed rounded-lg p-4 hover:bg-gray-50 transition cursor-pointer"
-      >
+      <div {...getRootProps()} className="border-2 border-dashed rounded-lg p-4 hover:bg-gray-50 transition cursor-pointer">
         <input {...getInputProps()} />
         <div className="relative aspect-video w-full">
-          <Image
-            src={getImageUrl(value)}
-            alt="Upload"
-            fill
-            className="object-cover rounded-lg"
-            unoptimized
-          />
+          <Image src={getImageUrl(value)} alt="Upload" fill className="object-cover rounded-lg" unoptimized />
         </div>
       </div>
       {value && (
@@ -95,4 +84,4 @@ export function ImageUpload({ value, onChange, onRemove }: ImageUploadProps) {
       )}
     </div>
   );
-} 
+}

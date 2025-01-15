@@ -62,16 +62,16 @@ export function isValidImageUrl(url: string): boolean {
   }
 }
 
-export function getImageUrl(path: string | null) {
-  if (!path) return '';
+export function getImageUrl(path: string | null): string {
+  if (!path) return '/images/placeholder.jpg';
   
-  // Если URL начинается с http или https - возвращаем как есть
-  if (path.startsWith('http')) {
-    return path;
+  // Для Cloudinary URL
+  if (path.includes('res.cloudinary.com')) {
+    return path.replace('/uploads/', '').replace('http:', 'https:');
   }
   
-  // Иначе добавляем /uploads/
-  return `/uploads/${path}`;
+  // Для локальных файлов
+  return `/uploads/${path.replace(/^\/+/, '')}`;
 }
 
 export function parseJsonField<T>(field: unknown, defaultValue: T): T {

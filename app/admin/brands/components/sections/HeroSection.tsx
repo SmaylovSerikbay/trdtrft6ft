@@ -1,7 +1,7 @@
 "use client";
-
 import { ImageUpload } from "@/components/ui/ImageUpload";
 import { Input } from "@/components/ui/input";
+import { getImageUrl } from "../../utils";
 import { SectionCard } from "../ui/SectionCard";
 import { SectionHeader } from "../ui/SectionHeader";
 
@@ -29,8 +29,10 @@ export function HeroSection({ data, onChange, errors }: HeroSectionProps) {
             <div>
               <label className="text-sm font-medium">Hero изображение</label>
               <ImageUpload
-                value={data.heroImage || ''}
-                onChange={(url) => onChange({ ...data, heroImage: url })}
+                value={getImageUrl(data.heroImage || '')}
+                onChange={(url) => {
+                  onChange({ ...data, heroImage: url });
+                }}
                 onRemove={() => onChange({ ...data, heroImage: '' })}
               />
             </div>
