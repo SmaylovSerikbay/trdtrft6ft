@@ -1,3 +1,17 @@
+interface YandexDiskItem {
+  type: string;
+  mime_type: string;
+  resource_id: string;
+  name: string;
+  file: string;
+}
+
+interface YandexDiskResponse {
+  _embedded: {
+    items: YandexDiskItem[];
+  };
+}
+
 const YANDEX_DISK_TOKEN = "y0_AgAAAAB64smFAAz8zQAAAAEc7G8dAABxKsTxTQ9BpLnROYn1Mmf0LOMo4A";
 
 export async function getYandexDiskFiles(folderPath: string) {
@@ -13,12 +27,12 @@ export async function getYandexDiskFiles(folderPath: string) {
 
     if (!response.ok) throw new Error('Failed to fetch files');
 
-    const data = await response.json();
+    const data = await response.json() as YandexDiskResponse;
     const { items } = data._embedded;
 
     return items
-      .filter((item: any) => item.type === 'file' && item.mime_type.startsWith('image/'))
-      .map((photo: any) => ({
+      .filter((item) => item.type === 'file' && item.mime_type.startsWith('image/'))
+      .map((photo) => ({
         id: photo.resource_id,
         name: photo.name,
         url: photo.file

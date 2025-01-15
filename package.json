@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "vercel-build": "mkdir -p public/uploads && next build",
+    "vercel-build": "mkdir -p public/uploads && prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
     "create-admin": "ts-node --project tsconfig.node.json scripts/create-admin.ts",
