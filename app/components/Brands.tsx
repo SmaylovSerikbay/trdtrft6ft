@@ -3,20 +3,20 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-// Добавляем опцию для отключения кэширования
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
-
 export default function Brands() {
   const [brands, setBrands] = useState([]);
   const router = useRouter();
 
   const fetchBrands = async () => {
     try {
-      const response = await fetch('/api/brands', {
+      const timestamp = new Date().getTime(); // Добавляем timestamp для предотвращения кэширования
+      const response = await fetch(`/api/brands?t=${timestamp}`, {
         cache: 'no-store',
-        next: { revalidate: 0 }
+        headers: {
+          'Cache-Control': 'no-cache'
+        }
       });
+      
       if (!response.ok) throw new Error('Failed to fetch brands');
       const data = await response.json();
       setBrands(data);
@@ -25,26 +25,21 @@ export default function Brands() {
     }
   };
 
+  // Первоначальная загрузка
   useEffect(() => {
     fetchBrands();
-
-    // Подписываемся на обновления
-    const interval = setInterval(fetchBrands, 5000); // Проверяем каждые 5 секунд
-
-    return () => clearInterval(interval);
   }, []);
 
-  // Добавляем обработчик для принудительного обновления
-  const handleRefresh = () => {
-    fetchBrands();
-    router.refresh();
-  };
-
+  // Подписка на событие создания бренда
   useEffect(() => {
-    // Подписываемся на событие обновления
-    window.addEventListener('brand-created', handleRefresh);
-    return () => window.removeEventListener('brand-created', handleRefresh);
-  }, []);
+    const handleBrandCreated = () => {
+      fetchBrands();
+      router.refresh();
+    };
 
-  // ... остальной код компонента
+    window.addEventListener('brand-created', handleBrandCreated);
+    return () => window.removeEventListener('brand-created', handleBrandCreated);
+  }, [router]);
+
+  
 } 

@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { revalidatePath } from 'next/cache';
 import { NextResponse } from "next/server";
 
 // Добавляем динамические опции
@@ -35,13 +36,10 @@ export async function POST(req: Request) {
       data: brandData
     });
 
-    // Ревалидация только после успешного создания
-    try {
-      await fetch('/api/revalidate?path=/brands');
-    } catch (error) {
-      console.error('Revalidation error:', error);
-      // Продолжаем выполнение даже при ошибке ревалидации
-    }
+    // Ревалидация всех необходимых путей
+    revalidatePath('/');
+    revalidatePath('/brands');
+    revalidatePath('/admin/brands');
 
     return NextResponse.json({ success: true, data: brand });
   } catch (error) {
@@ -66,8 +64,9 @@ export async function GET() {
     
     return NextResponse.json(brands, {
       headers: {
-        'Cache-Control': 'no-store, max-age=0',
-        'Content-Type': 'application/json',
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0',
       },
     });
   } catch (error) {

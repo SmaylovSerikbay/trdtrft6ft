@@ -92,16 +92,19 @@ export function BrandForm({ initialData, onSubmit }: BrandFormProps) {
 
       const result = await response.json();
 
-      if (!response.ok) {
+      if (!response.ok || !result.success) {
         throw new Error(result.error || 'Failed to save brand');
       }
 
-      if (!result.success) {
-        throw new Error(result.error || 'Failed to save brand');
-      }
-
-      // Триггерим событие создания бренда
+      // Отправляем событие создания бренда
       window.dispatchEvent(new Event('brand-created'));
+      
+      // Принудительно ревалидируем все пути
+      await Promise.all([
+        fetch('/api/revalidate?path=/'),
+        fetch('/api/revalidate?path=/brands'),
+        fetch('/api/revalidate?path=/admin/brands')
+      ]);
 
       router.push('/admin/brands');
       router.refresh();
