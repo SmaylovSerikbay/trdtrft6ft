@@ -36,8 +36,7 @@ export async function POST(request: Request) {
       }).end(buffer);
     });
 
-    const url = result.secure_url.replace('http:', 'https:');
-    return Response.json({ url });
+    return Response.json({ url: result.secure_url });
   } catch (error: any) {
     console.error('Upload error:', error);
     return new Response(

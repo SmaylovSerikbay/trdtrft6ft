@@ -1,8 +1,7 @@
 "use client";
 
-import { ImageUpload } from "../../../components/ImageUpload";
+import { ImageUpload } from "@/components/ui/ImageUpload";
 import { Brand } from "../../types";
-import { getImageUrl } from "../../utils";
 
 interface MainGallerySectionProps {
   data: Brand;
@@ -15,34 +14,26 @@ export function MainGallerySection({
   onChange,
   errors
 }: MainGallerySectionProps) {
-  const mainGallery = (() => {
-    try {
-      return typeof data.mainGallery === 'string' 
-        ? JSON.parse(data.mainGallery) 
-        : Array.isArray(data.mainGallery) 
-          ? data.mainGallery 
-          : [];
-    } catch {
-      return [];
-    }
-  })();
+  const mainGallery = Array.isArray(data.mainGallery) ? data.mainGallery : [];
 
   return (
     <div className="space-y-4">
       <div>
         <label className="block text-sm font-medium mb-1">Основная галерея</label>
         <div className="grid grid-cols-2 gap-4">
-          {mainGallery.map((image:string, index:number) => (
+          {mainGallery.map((image: string, index: number) => (
             <div key={index} className="relative">
               <ImageUpload
-                value={getImageUrl(image)}
+                value={image}
                 onChange={(url) => {
                   const newGallery = [...mainGallery];
                   newGallery[index] = url;
                   onChange({ mainGallery: newGallery });
                 }}
-                disabled={false}
-                placeholder="/images/placeholder.jpg"
+                onRemove={() => {
+                  const newGallery = mainGallery.filter((_, i) => i !== index);
+                  onChange({ mainGallery: newGallery });
+                }}
               />
             </div>
           ))}
@@ -52,8 +43,7 @@ export function MainGallerySection({
               onChange={(url) => {
                 onChange({ mainGallery: [...mainGallery, url] });
               }}
-              disabled={false}
-              placeholder="/images/placeholder.jpg"
+              onRemove={() => {}}
             />
           </div>
         </div>

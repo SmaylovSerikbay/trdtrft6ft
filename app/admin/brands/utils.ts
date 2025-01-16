@@ -62,27 +62,27 @@ export function isValidImageUrl(url: string): boolean {
   }
 }
 
-export const getImageUrl = (path: string | null): string => {
+export function getImageUrl(path: string | null): string {
   if (!path) return '/images/placeholder.jpg';
   
+  // Если это Cloudinary URL, возвращаем как есть
+  if (path.includes('res.cloudinary.com')) {
+    return path;
+  }
+  
+  // Если это абсолютный URL
   if (path.startsWith('http://') || path.startsWith('https://')) {
     return path;
   }
   
+  // Если это локальный путь, начинающийся с /
   if (path.startsWith('/')) {
     return path;
   }
   
-  if (path.includes('disk.yandex.ru')) {
-    return path; // SafeImage компонент обработает это
-  }
-  
-  if (path.includes('uploads/uploads/')) {
-    return `/${path.replace('uploads/uploads/', 'uploads/')}`;
-  }
-  
-  return `/uploads/${path}`;
-};
+  // Для остальных случаев добавляем префикс /uploads/
+  return `/uploads/${path.replace(/^uploads\//, '')}`;
+}
 
 export function parseJsonField<T>(field: unknown, defaultValue: T): T {
   if (!field) return defaultValue;

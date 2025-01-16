@@ -2,7 +2,7 @@
 
 import { PLACEHOLDER_IMAGE } from "@/app/admin/brands/constants";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface SafeImageProps {
   src: string;
@@ -17,25 +17,6 @@ interface SafeImageProps {
 
 export function SafeImage({ src, alt, ...props }: SafeImageProps) {
   const [error, setError] = useState(false);
-  const [imageUrl, setImageUrl] = useState(src);
-
-  useEffect(() => {
-    const fetchImageUrl = async () => {
-      if (src.includes('disk.yandex.ru')) {
-        try {
-          const response = await fetch(`/api/yandex-disk/get-url?path=${encodeURIComponent(src)}`);
-          if (!response.ok) throw new Error('Failed to get image URL');
-          const data = await response.json();
-          setImageUrl(data.url);
-        } catch (error) {
-          console.error('Error fetching image URL:', error);
-          setError(true);
-        }
-      }
-    };
-
-    fetchImageUrl();
-  }, [src]);
 
   if (!src || error) {
     return (
@@ -50,11 +31,11 @@ export function SafeImage({ src, alt, ...props }: SafeImageProps) {
 
   return (
     <Image
-      src={imageUrl}
+      src={src}
       alt={alt}
       {...props}
       onError={() => setError(true)}
-      unoptimized={imageUrl.startsWith('data:') || imageUrl.startsWith('blob:')}
+      unoptimized={src.startsWith('data:') || src.startsWith('blob:')}
     />
   );
 } 

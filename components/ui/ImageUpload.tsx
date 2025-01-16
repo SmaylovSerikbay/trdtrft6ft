@@ -1,6 +1,6 @@
 "use client";
 
-import { X } from "lucide-react";
+import { Plus, X } from "lucide-react";
 import Image from "next/image";
 import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
@@ -41,34 +41,28 @@ export function ImageUpload({ value, onChange, onRemove }: ImageUploadProps) {
     maxFiles: 1
   });
 
-  const getImageUrl = (url: string | null): string => {
-    if (!url || url === '') return '/placeholder.jpg';
-    
-    console.log('Processing URL:', url);
-    
-    // Если URL уже содержит полный путь к Cloudinary
-    if (url.includes('res.cloudinary.com')) {
-      // Убираем возможный префикс /uploads/
-      const cleanUrl = url.replace('/uploads/', '');
-      // Убеждаемся, что используется https
-      const secureUrl = cleanUrl.replace('http:', 'https:');
-      console.log('Returning Cloudinary URL:', secureUrl);
-      return secureUrl;
-    }
-    
-    // Для локальных файлов
-    const localUrl = `/uploads/${url.replace(/^\/+/, '')}`;
-    console.log('Returning local URL:', localUrl);
-    return localUrl;
-  };
-
   return (
     <div className="relative">
       <div {...getRootProps()} className="border-2 border-dashed rounded-lg p-4 hover:bg-gray-50 transition cursor-pointer">
         <input {...getInputProps()} />
-        <div className="relative aspect-video w-full">
-          <Image src={getImageUrl(value)} alt="Upload" fill className="object-cover rounded-lg" unoptimized />
-        </div>
+        {value ? (
+          <div className="relative aspect-video w-full">
+            <Image 
+              src={value} 
+              alt="Upload" 
+              fill 
+              className="object-cover rounded-lg" 
+              unoptimized 
+            />
+          </div>
+        ) : (
+          <div className="aspect-video w-full flex items-center justify-center">
+            <div className="flex flex-col items-center gap-2 text-gray-500">
+              <Plus className="h-8 w-8" />
+              <span>Добавить изображение</span>
+            </div>
+          </div>
+        )}
       </div>
       {value && (
         <button

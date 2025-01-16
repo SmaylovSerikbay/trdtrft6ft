@@ -1,11 +1,11 @@
 "use client";
 
+import { ImageUpload } from "@/components/ui/ImageUpload";
 import * as Icons from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { z } from "zod";
-import { ImageUpload } from "../../components/ImageUpload";
 import { Brand } from "../types";
 import { createEmptyBrand, generateSlug } from "../utils";
 import { FeaturesSection } from "./sections/FeaturesSection";
@@ -180,8 +180,7 @@ export function BrandForm({ initialData, onSubmit }: BrandFormProps) {
               <ImageUpload
                 value={data.heroImage || ""}
                 onChange={(url) => onChange({ heroImage: url })}
-                disabled={false}
-                placeholder="/images/placeholder-hero.jpg"
+                onRemove={() => onChange({ heroImage: "" })}
               />
             </div>
           </div>
