@@ -1,6 +1,10 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
+// Добавляем динамические опции
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export async function POST(req: Request) {
   try {
     const data = await req.json();
@@ -21,6 +25,9 @@ export async function POST(req: Request) {
     const brand = await prisma.brand.create({
       data: brandData
     });
+
+    // Принудительно очищаем кэш после создания
+    await fetch('/api/revalidate?path=/brands');
 
     return NextResponse.json(brand);
   } catch (error) {
