@@ -1,60 +1,34 @@
 import { NextResponse } from "next/server";
 
-const YANDEX_DISK_API = "https://cloud-api.yandex.net/v1/disk/resources";
-const YANDEX_OAUTH_TOKEN = process.env.YANDEX_OAUTH_TOKEN;
-
-async function getDownloadUrl(path: string) {
+export async function POST(request: Request) {
   try {
-    const response = await fetch(
-      `${YANDEX_DISK_API}/download?path=${encodeURIComponent(path)}`,
+    const formData = await request.formData();
+    const file = formData.get('file') as File;
+    const path = formData.get('path') as string;
+
+    // Получаем URL для загрузки
+    const getUploadUrlResponse = await fetch(
+      `https://cloud-api.yandex.net/v1/disk/resources/upload?path=${encodeURIComponent(path)}`,
       {
         headers: {
-          Authorization: `OAuth ${YANDEX_OAUTH_TOKEN}`,
-        },
+          Authorization: `OAuth ${process.env.YANDEX_DISK_TOKEN}`
+        }
       }
     );
 
-    if (!response.ok) {
-      throw new Error('Failed to get download URL');
-    }
-
-    const data = await response.json();
-    return data.href;
-  } catch (error) {
-    console.error('Error getting download URL:', error);
-    throw error;
-  }
-}
-
-export async function GET(request: Request) {
-  try {
-    const { searchParams } = new URL(request.url);
-    const path = searchParams.get('path');
-
-    if (!path) {
-      return NextResponse.json({ error: 'Path is required' }, { status: 400 });
-    }
-
-    // Получаем временную ссылку для скачивания
-    const downloadUrl = await getDownloadUrl(path);
+    const { href } = await getUploadUrlResponse.json();
 
     // Загружаем файл
-    const fileResponse = await fetch(downloadUrl);
-    const fileBuffer = await fileResponse.arrayBuffer();
-
-    // Возвращаем файл с правильными заголовками
-    return new NextResponse(fileBuffer, {
-      headers: {
-        'Content-Type': fileResponse.headers.get('Content-Type') || 'application/octet-stream',
-        'Cache-Control': 'public, max-age=3600',
-        'Access-Control-Allow-Origin': '*'
-      },
+    const uploadResponse = await fetch(href, {
+      method: 'PUT',
+      body: file
     });
+
+    if (!uploadResponse.ok) throw new Error('Upload failed');
+
+    return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Error processing request:', error);
-    return NextResponse.json(
-      { error: 'Failed to process request' },
-      { status: 500 }
-    );
+    console.error('Upload error:', error);
+    return new NextResponse("Error uploading file", { status: 500 });
   }
 } 
