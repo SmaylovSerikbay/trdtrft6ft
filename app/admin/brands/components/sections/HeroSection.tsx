@@ -29,10 +29,11 @@ export function HeroSection({ data, onChange, errors }: HeroSectionProps) {
             <div>
               <label className="text-sm font-medium">Hero изображение</label>
               <ImageUpload
-                value={getImageUrl(data.heroImage || '')}
+                value={getImageUrl(data.heroImage ?? null)}
                 onChange={(url) => {
                   onChange({ ...data, heroImage: url });
                 }}
+                
                 onRemove={() => onChange({ ...data, heroImage: '' })}
               />
             </div>

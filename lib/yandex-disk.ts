@@ -1,3 +1,5 @@
+import { cache } from 'react';
+
 interface YandexDiskItem {
   type: string;
   mime_type: string;
@@ -12,7 +14,30 @@ interface YandexDiskResponse {
   };
 }
 
-const YANDEX_DISK_TOKEN = "y0_AgAAAAB64smFAAz8zQAAAAEc7G8dAABxKsTxTQ9BpLnROYn1Mmf0LOMo4A";
+const YANDEX_DISK_TOKEN = process.env.NEXT_PUBLIC_YANDEX_DISK_TOKEN;
+
+export const getDownloadUrl = cache(async (path: string): Promise<string> => {
+  try {
+    const response = await fetch(
+      `https://cloud-api.yandex.net/v1/disk/resources/download?path=${encodeURIComponent(path)}`,
+      {
+        headers: {
+          Authorization: `OAuth ${YANDEX_DISK_TOKEN}`
+        }
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error('Failed to get download URL');
+    }
+
+    const data = await response.json();
+    return data.href;
+  } catch (error) {
+    console.error('Error getting download URL:', error);
+    return '';
+  }
+});
 
 export async function getYandexDiskFiles(folderPath: string) {
   try {
