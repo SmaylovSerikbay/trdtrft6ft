@@ -1,10 +1,10 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { ImageUpload } from "@/components/ui/ImageUpload";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useEffect, useState } from "react";
-import { ImageUpload } from "../../components/ImageUpload";
 
 interface AboutUsFormProps {
   onClose: () => void;
@@ -108,6 +108,7 @@ export function AboutUsForm({ onClose }: AboutUsFormProps) {
             <ImageUpload
               value={formData.logo}
               onChange={(url) => setFormData({ ...formData, logo: url })}
+              onRemove={() => setFormData({ ...formData, logo: "" })}
             />
           </div>
           <div>
@@ -115,6 +116,7 @@ export function AboutUsForm({ onClose }: AboutUsFormProps) {
             <ImageUpload
               value={formData.logoDark}
               onChange={(url) => setFormData({ ...formData, logoDark: url })}
+              onRemove={() => setFormData({ ...formData, logoDark: "" })}
             />
           </div>
           <div className="flex justify-end gap-2">

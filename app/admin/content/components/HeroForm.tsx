@@ -1,10 +1,10 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { ImageUpload } from "@/components/ui/ImageUpload";
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
 import { useEffect, useState } from "react";
-import { ImageUpload } from "../../components/ImageUpload";
 
 interface HeroFormProps {
   onClose: () => void;
@@ -78,16 +78,17 @@ export function HeroForm({ onClose }: HeroFormProps) {
             <ImageUpload
               value={formData.image}
               onChange={(url) => {
-                console.log('Selected image:', url);
-                if (typeof url === 'string') {
-                  setFormData(prev => ({
-                    ...prev,
-                    image: url
-                  }));
-                }
+                setFormData(prev => ({
+                  ...prev,
+                  image: url
+                }));
               }}
-              disabled={false}
-              placeholder="/hero/hero-bg.jpg"
+              onRemove={() => {
+                setFormData(prev => ({
+                  ...prev,
+                  image: ""
+                }));
+              }}
             />
             <div className="mt-2 text-sm text-gray-500">
               {formData.image ? (
