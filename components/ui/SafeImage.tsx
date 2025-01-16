@@ -1,36 +1,41 @@
 "use client";
 
-import { getYandexDiskImageUrl } from "@/lib/yandex-disk";
+import { PLACEHOLDER_IMAGE } from "@/app/admin/brands/constants";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface SafeImageProps {
   src: string;
   alt: string;
   className?: string;
+  fill?: boolean;
   width?: number;
   height?: number;
+  sizes?: string;
+  priority?: boolean;
 }
 
-export function SafeImage({ src, alt, className, width, height }: SafeImageProps) {
-  const [imageSrc, setImageSrc] = useState<string>('/placeholder.jpg');
+export function SafeImage({ src, alt, ...props }: SafeImageProps) {
+  const [error, setError] = useState(false);
 
-  useEffect(() => {
-    if (src.includes('disk.yandex.ru')) {
-      getYandexDiskImageUrl(src).then(setImageSrc);
-    } else {
-      setImageSrc(src);
-    }
-  }, [src]);
+  if (!src || error) {
+    return (
+      <Image
+        src={PLACEHOLDER_IMAGE}
+        alt={alt}
+        {...props}
+        unoptimized
+      />
+    );
+  }
 
   return (
     <Image
-      src={imageSrc}
+      src={src}
       alt={alt}
-      width={width || 300}
-      height={height || 200}
-      className={className}
-      unoptimized
+      {...props}
+      onError={() => setError(true)}
+      unoptimized={src.startsWith('data:') || src.startsWith('blob:')}
     />
   );
 } 
