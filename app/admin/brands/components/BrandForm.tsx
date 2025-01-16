@@ -82,17 +82,22 @@ export function BrandForm({ initialData, onSubmit }: BrandFormProps) {
       setIsLoading(true);
       setError(null);
 
-      const method = data.id ? 'PATCH' : 'POST';
       const response = await fetch('/api/brands', {
-        method,
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(data)
       });
 
+      const result = await response.json();
+
       if (!response.ok) {
-        throw new Error('Failed to save brand');
+        throw new Error(result.error || 'Failed to save brand');
+      }
+
+      if (!result.success) {
+        throw new Error(result.error || 'Failed to save brand');
       }
 
       router.push('/admin/brands');

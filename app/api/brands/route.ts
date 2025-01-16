@@ -9,30 +9,50 @@ export async function POST(req: Request) {
   try {
     const data = await req.json();
     
-    // Преобразуем gallery в JSON строку
+    // Проверяем обязательные поля
+    if (!data.name) {
+      return NextResponse.json(
+        { error: "Name is required" },
+        { status: 400 }
+      );
+    }
+
+    // Подготавливаем данные для сохранения
     const brandData = {
       ...data,
-      gallery: JSON.stringify(data.gallery),
-      workingHours: JSON.stringify(data.workingHours),
-      mainGallery: JSON.stringify(data.mainGallery),
-      navigationTags: JSON.stringify(data.navigationTags),
-      brandHistory: JSON.stringify(data.brandHistory),
-      features: JSON.stringify(data.features),
-      specialOffers: JSON.stringify(data.specialOffers),
-      bottomGallery: JSON.stringify(data.bottomGallery),
+      // Безопасно преобразуем JSON поля
+      gallery: data.gallery ? JSON.stringify(data.gallery) : null,
+      workingHours: data.workingHours ? JSON.stringify(data.workingHours) : null,
+      mainGallery: data.mainGallery ? JSON.stringify(data.mainGallery) : null,
+      navigationTags: data.navigationTags ? JSON.stringify(data.navigationTags) : null,
+      brandHistory: data.brandHistory ? JSON.stringify(data.brandHistory) : null,
+      features: data.features ? JSON.stringify(data.features) : null,
+      specialOffers: data.specialOffers ? JSON.stringify(data.specialOffers) : null,
+      bottomGallery: data.bottomGallery ? JSON.stringify(data.bottomGallery) : null,
     };
 
     const brand = await prisma.brand.create({
       data: brandData
     });
 
-    // Принудительно очищаем кэш после создания
-    await fetch('/api/revalidate?path=/brands');
+    // Ревалидация только после успешного создания
+    try {
+      await fetch('/api/revalidate?path=/brands');
+    } catch (error) {
+      console.error('Revalidation error:', error);
+      // Продолжаем выполнение даже при ошибке ревалидации
+    }
 
-    return NextResponse.json(brand);
+    return NextResponse.json({ success: true, data: brand });
   } catch (error) {
     console.error('Error creating brand:', error);
-    return new NextResponse("Internal error", { status: 500 });
+    return NextResponse.json(
+      { 
+        success: false, 
+        error: error instanceof Error ? error.message : "Failed to create brand" 
+      }, 
+      { status: 500 }
+    );
   }
 }
 
