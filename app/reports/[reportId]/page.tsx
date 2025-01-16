@@ -4,21 +4,22 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Loader from "@/components/Loader";
 import {
-    Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbLink,
-    BreadcrumbList,
-    BreadcrumbPage,
-    BreadcrumbSeparator,
+   Breadcrumb,
+   BreadcrumbItem,
+   BreadcrumbLink,
+   BreadcrumbList,
+   BreadcrumbPage,
+   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
+   DropdownMenu,
+   DropdownMenuContent,
+   DropdownMenuItem,
+   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { SafeImage } from "@/components/ui/SafeImage";
 import { Separator } from "@/components/ui/separator";
 import { downloadFiles } from "@/lib/download";
 import { getYandexDiskFiles } from "@/lib/yandex-disk";
@@ -117,9 +118,10 @@ export default function ReportPage({ params }: PageProps) {
       try {
          const selectedPhotosList = photos.filter((photo: Photo) => selectedPhotos.has(photo.id));
          
-         // Создаем все промисы для скачивания
-         const downloadPromises = selectedPhotosList.map(async (photo: Photo) => {
-            const response = await fetch(photo.url);
+         for (const photo of selectedPhotosList) {
+            const response = await fetch(`/api/yandex-disk/download?path=${encodeURIComponent(photo.url)}`);
+            if (!response.ok) throw new Error('Failed to download file');
+            
             const blob = await response.blob();
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -131,11 +133,6 @@ export default function ReportPage({ params }: PageProps) {
             document.body.removeChild(a);
             // Добавляем небольшую задержку между скачиваниями
             await new Promise(resolve => setTimeout(resolve, 500));
-         });
-
-         // Запускаем скачивание последовательно
-         for (const promise of downloadPromises) {
-            await promise;
          }
 
          toast.success(`Скачано ${selectedPhotosList.length} фото`);
@@ -183,7 +180,9 @@ export default function ReportPage({ params }: PageProps) {
 
    const handleDownloadSingle = async (photo: Photo) => {
       try {
-         const response = await fetch(photo.url);
+         const response = await fetch(`/api/yandex-disk/download?path=${encodeURIComponent(photo.url)}`);
+         if (!response.ok) throw new Error('Failed to download file');
+         
          const blob = await response.blob();
          const url = window.URL.createObjectURL(blob);
          const a = document.createElement('a');
@@ -288,11 +287,15 @@ export default function ReportPage({ params }: PageProps) {
                         <Dialog key={photo.id}>
                            <div className="group relative cursor-pointer">
                               <DialogTrigger asChild>
-                                 <img
-                                    src={photo.url}
-                                    alt={photo.name}
-                                    className="aspect-[4/3] w-full rounded-lg object-cover"
-                                 />
+                                 <div className="aspect-[4/3] w-full rounded-lg overflow-hidden">
+                                    <SafeImage
+                                       src={photo.url}
+                                       alt={photo.name}
+                                       fill
+                                       className="object-cover"
+                                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                                    />
+                                 </div>
                               </DialogTrigger>
                               <div className="absolute inset-0 flex items-center justify-center rounded-lg bg-black/50 opacity-0 transition-opacity group-hover:opacity-100">
                                  <div className="flex items-center gap-2">
@@ -326,10 +329,13 @@ export default function ReportPage({ params }: PageProps) {
                            </div>
                            <DialogContent className="max-w-[95vw] max-h-[95vh] p-0 border-none bg-transparent">
                               <div className="relative flex items-center justify-center w-full h-full bg-black/90">
-                                 <img
+                                 <SafeImage
                                     src={photo.url}
                                     alt={photo.name}
                                     className="max-w-full max-h-[90vh] object-contain"
+                                    width={1920}
+                                    height={1080}
+                                    priority
                                  />
                                  <div className="absolute right-4 top-4 flex gap-2">
                                     <Button
