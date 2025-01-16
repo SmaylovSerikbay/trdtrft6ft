@@ -87,4 +87,23 @@ export async function uploadToYandexDisk(file: File, path: string) {
     console.error('Error uploading file:', error);
     return false;
   }
+}
+
+export async function getYandexDiskImageUrl(path: string) {
+  try {
+    // Добавляем timestamp для предотвращения кэширования
+    const timestamp = new Date().getTime();
+    const response = await fetch(`/api/yandex-disk/upload?path=${encodeURIComponent(path)}&t=${timestamp}`);
+    
+    if (!response.ok) {
+      throw new Error('Failed to get image');
+    }
+
+    // Создаем Blob из ответа
+    const blob = await response.blob();
+    return URL.createObjectURL(blob);
+  } catch (error) {
+    console.error('Error getting image:', error);
+    return '/placeholder.jpg'; // Возвращаем placeholder в случае ошибки
+  }
 } 
