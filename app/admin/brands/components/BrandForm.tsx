@@ -82,8 +82,9 @@ export function BrandForm({ initialData, onSubmit }: BrandFormProps) {
       setIsLoading(true);
       setError(null);
 
+      const method = data.id ? 'PATCH' : 'POST';
       const response = await fetch('/api/brands', {
-        method: 'POST',
+        method,
         headers: {
           'Content-Type': 'application/json',
         },
@@ -93,13 +94,11 @@ export function BrandForm({ initialData, onSubmit }: BrandFormProps) {
       const result = await response.json();
 
       if (!response.ok || !result.success) {
-        throw new Error(result.error || 'Failed to save brand');
+        throw new Error(result.error || `Failed to ${data.id ? 'update' : 'save'} brand`);
       }
 
-      // Отправляем событие создания бренда
       window.dispatchEvent(new Event('brand-created'));
       
-      // Принудительно ревалидируем все пути
       await Promise.all([
         fetch('/api/revalidate?path=/'),
         fetch('/api/revalidate?path=/brands'),
