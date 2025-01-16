@@ -100,6 +100,9 @@ export function BrandForm({ initialData, onSubmit }: BrandFormProps) {
         throw new Error(result.error || 'Failed to save brand');
       }
 
+      // Триггерим событие создания бренда
+      window.dispatchEvent(new Event('brand-created'));
+
       router.push('/admin/brands');
       router.refresh();
     } catch (error) {

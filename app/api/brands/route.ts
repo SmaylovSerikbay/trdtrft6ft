@@ -63,8 +63,17 @@ export async function GET() {
         createdAt: 'desc'
       }
     });
-    return NextResponse.json(brands);
+    
+    return NextResponse.json(brands, {
+      headers: {
+        'Cache-Control': 'no-store, max-age=0',
+        'Content-Type': 'application/json',
+      },
+    });
   } catch (error) {
-    return new NextResponse("Internal error", { status: 500 });
+    return NextResponse.json(
+      { success: false, error: "Failed to fetch brands" },
+      { status: 500 }
+    );
   }
 } 
