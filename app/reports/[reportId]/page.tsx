@@ -120,7 +120,9 @@ export default function ReportPage({ params }: PageProps) {
          const selectedPhotosList = photos.filter((photo: Photo) => selectedPhotos.has(photo.id));
          
          for (const photo of selectedPhotosList) {
-            const response = await fetch(`/api/yandex-disk/download?path=${encodeURIComponent(photo.url)}`);
+            const response = await fetch(
+               `/api/yandex-disk/download?path=${encodeURIComponent(photo.name)}&folderPath=${encodeURIComponent(report?.folderPath || '')}`
+            );
             if (!response.ok) throw new Error('Failed to download file');
             
             const blob = await response.blob();
