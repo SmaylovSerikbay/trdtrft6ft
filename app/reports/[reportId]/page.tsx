@@ -12,7 +12,7 @@ import {
    BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import {
    DropdownMenu,
    DropdownMenuContent,
@@ -331,6 +331,10 @@ export default function ReportPage({ params }: PageProps) {
                               />
                            </div>
                            <DialogContent className="max-w-[95vw] max-h-[95vh] p-0 border-none bg-transparent">
+                              <DialogTitle className="sr-only">Просмотр фотографии</DialogTitle>
+                              <DialogDescription className="sr-only">
+                                 Фотография из репортажа {report?.title}
+                              </DialogDescription>
                               <div className="relative flex items-center justify-center w-full h-full bg-black/90">
                                  <SafeImage
                                     src={photo.url}

@@ -20,7 +20,7 @@ export async function GET(request: Request) {
     }
 
     // Формируем путь к файлу в Яндекс.Диске
-    const fullPath = `${folderPath}/${filename}`;
+    const fullPath = `/${folderPath}/${filename}`.replace(/\/+/g, '/');
 
     // Получаем ссылку на скачивание
     const response = await fetch(
