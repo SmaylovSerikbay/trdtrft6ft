@@ -10,7 +10,7 @@ import "./globals.css";
 export const metadata: Metadata = {
    title: "Holy Melon",
    description: "Holy Melon Admin Panel",
-   referrer: "no-referrer"
+   referrer: "no-referrer-when-downgrade"
 };
 
 export default function RootLayout({
