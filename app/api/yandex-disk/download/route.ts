@@ -6,10 +6,23 @@ const YANDEX_DISK_TOKEN = process.env.YANDEX_DISK_TOKEN;
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const path = searchParams.get('path');
+    let path = searchParams.get('path');
 
     if (!path) {
       return NextResponse.json({ error: 'Path is required' }, { status: 400 });
+    }
+
+    // Если получен полный URL, извлекаем из него путь к файлу
+    if (path.startsWith('http')) {
+      try {
+        const url = new URL(path);
+        const filename = url.searchParams.get('filename');
+        // Получаем путь к файлу из folderPath репортажа
+        path = `/${filename}`; // Или используйте соответствующий путь к папке
+      } catch (e) {
+        console.error('Error parsing URL:', e);
+        return NextResponse.json({ error: 'Invalid URL' }, { status: 400 });
+      }
     }
 
     // Получаем ссылку на скачивание

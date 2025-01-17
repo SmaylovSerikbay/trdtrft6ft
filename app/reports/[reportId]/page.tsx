@@ -79,7 +79,10 @@ export default function ReportPage({ params }: PageProps) {
             setReport(reportData);
 
             const photosData = await getYandexDiskFiles(reportData.folderPath);
-            setPhotos(photosData);
+            setPhotos(photosData.map(photo => ({
+               ...photo,
+               url: `${reportData.folderPath}/${photo.name}`
+            })));
             // Показываем первые 20 фотографий
             setDisplayedPhotos(photosData.slice(0, photosPerPage));
          } catch (error) {
