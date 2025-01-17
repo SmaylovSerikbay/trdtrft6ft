@@ -36,6 +36,7 @@ export async function getData(name: string) {
          headers: {
             Authorization:
                "OAuth y0_AgAAAAB64smFAAz8zQAAAAEc7G8dAABxKsTxTQ9BpLnROYn1Mmf0LOMo4A",
+            "Cache-Control": "no-cache",
          },
       }).then((res) => res.json()),
    );
