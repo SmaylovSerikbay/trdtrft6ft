@@ -21,8 +21,8 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: 'Invalid file path' }, { status: 400 });
     }
 
-    // Формируем путь к файлу в Яндекс.Диске
-    const fullPath = `disk:/${folderPath}/${filename}`.replace(/\/+/g, '/');
+    // Формируем путь к файлу в Яндекс.Диске (без префикса disk:)
+    const fullPath = `/${folderPath}/${filename}`.replace(/\/+/g, '/');
     console.log('Constructed full path:', fullPath);
 
     // Получаем ссылку на скачивание
@@ -30,7 +30,8 @@ export async function GET(request: Request) {
       `${YANDEX_DISK_API}?path=${encodeURIComponent(fullPath)}`,
       {
         headers: {
-          Authorization: `OAuth ${YANDEX_DISK_TOKEN}`
+          'Authorization': `OAuth ${YANDEX_DISK_TOKEN}`,
+          'Accept': 'application/json'
         }
       }
     );
