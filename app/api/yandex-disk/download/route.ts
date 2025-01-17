@@ -9,18 +9,21 @@ export async function GET(request: Request) {
     let path = searchParams.get('path');
     const folderPath = searchParams.get('folderPath');
 
+    console.log('Received request with path:', path, 'folderPath:', folderPath);
+
     if (!path || !folderPath) {
       return NextResponse.json({ error: 'Path and folderPath are required' }, { status: 400 });
     }
 
-    // Получаем имя файла из URL
-    const filename = path.split('/').pop()?.split('?')[0];
+    // Получаем имя файла из URL или используем весь path, если это просто имя файла
+    const filename = path.includes('/') ? path.split('/').pop()?.split('?')[0] : path;
     if (!filename) {
       return NextResponse.json({ error: 'Invalid file path' }, { status: 400 });
     }
 
     // Формируем путь к файлу в Яндекс.Диске
-    const fullPath = `/${folderPath}/${filename}`.replace(/\/+/g, '/');
+    const fullPath = `disk:/${folderPath}/${filename}`.replace(/\/+/g, '/');
+    console.log('Constructed full path:', fullPath);
 
     // Получаем ссылку на скачивание
     const response = await fetch(
@@ -33,16 +36,20 @@ export async function GET(request: Request) {
     );
 
     if (!response.ok) {
-      console.error('Yandex.Disk API error:', await response.text());
-      throw new Error('Failed to get download URL');
+      const errorText = await response.text();
+      console.error('Yandex.Disk API error response:', errorText);
+      throw new Error(`Failed to get download URL: ${errorText}`);
     }
 
-    const { href } = await response.json();
+    const data = await response.json();
+    console.log('Yandex.Disk API response:', data);
 
     // Скачиваем файл
-    const fileResponse = await fetch(href);
+    const fileResponse = await fetch(data.href);
     
     if (!fileResponse.ok) {
+      const errorText = await fileResponse.text();
+      console.error('File download error:', errorText);
       throw new Error('Failed to download file');
     }
     
@@ -55,7 +62,10 @@ export async function GET(request: Request) {
       }
     });
   } catch (error) {
-    console.error('Error downloading file:', error);
-    return NextResponse.json({ error: 'Failed to download file' }, { status: 500 });
+    console.error('Error in download route:', error);
+    return NextResponse.json({ 
+      error: 'Failed to download file',
+      details: error instanceof Error ? error.message : 'Unknown error'
+    }, { status: 500 });
   }
 } 
