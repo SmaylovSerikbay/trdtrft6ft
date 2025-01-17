@@ -7,33 +7,24 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     let path = searchParams.get('path');
+    const folderPath = searchParams.get('folderPath');
 
-    if (!path) {
-      return NextResponse.json({ error: 'Path is required' }, { status: 400 });
+    if (!path || !folderPath) {
+      return NextResponse.json({ error: 'Path and folderPath are required' }, { status: 400 });
     }
 
-    // Если получен полный URL, извлекаем из него путь к файлу
-    if (path.startsWith('http')) {
-      try {
-        const url = new URL(path);
-        const folderPath = searchParams.get('folderPath');
-        const filename = url.searchParams.get('filename');
-        
-        if (!folderPath || !filename) {
-          throw new Error('Missing folderPath or filename');
-        }
-        
-        // Формируем путь к файлу в Яндекс.Диске
-        path = `${folderPath}/${filename}`;
-      } catch (e) {
-        console.error('Error parsing URL:', e);
-        return NextResponse.json({ error: 'Invalid URL' }, { status: 400 });
-      }
+    // Получаем имя файла из URL
+    const filename = path.split('/').pop()?.split('?')[0];
+    if (!filename) {
+      return NextResponse.json({ error: 'Invalid file path' }, { status: 400 });
     }
+
+    // Формируем путь к файлу в Яндекс.Диске
+    const fullPath = `${folderPath}/${filename}`;
 
     // Получаем ссылку на скачивание
     const response = await fetch(
-      `${YANDEX_DISK_API}?path=${encodeURIComponent(path)}`,
+      `${YANDEX_DISK_API}?path=${encodeURIComponent(fullPath)}`,
       {
         headers: {
           Authorization: `OAuth ${YANDEX_DISK_TOKEN}`

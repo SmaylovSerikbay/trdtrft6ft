@@ -181,7 +181,7 @@ export default function ReportPage({ params }: PageProps) {
 
    const handleDownloadSingle = async (photo: Photo) => {
       try {
-         const response = await fetch(`/api/yandex-disk/download?path=${photo.url}&folderPath=${report?.folderPath}`);
+         const response = await fetch(`/api/yandex-disk/download?path=${encodeURIComponent(photo.name)}&folderPath=${encodeURIComponent(report?.folderPath || '')}`);
          if (!response.ok) throw new Error('Failed to download file');
          
          const blob = await response.blob();
