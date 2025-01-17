@@ -45,6 +45,7 @@ interface Photo {
    id: string;
    name: string;
    url: string;
+   file?: string;
 }
 
 interface PageProps {
@@ -79,10 +80,7 @@ export default function ReportPage({ params }: PageProps) {
             setReport(reportData);
 
             const photosData = await getYandexDiskFiles(reportData.folderPath);
-            setPhotos(photosData.map(photo => ({
-               ...photo,
-               url: `${reportData.folderPath}/${photo.name}`
-            })));
+            setPhotos(photosData);
             // Показываем первые 20 фотографий
             setDisplayedPhotos(photosData.slice(0, photosPerPage));
          } catch (error) {
@@ -183,7 +181,7 @@ export default function ReportPage({ params }: PageProps) {
 
    const handleDownloadSingle = async (photo: Photo) => {
       try {
-         const response = await fetch(`/api/yandex-disk/download?path=${encodeURIComponent(photo.url)}`);
+         const response = await fetch(`/api/yandex-disk/download?path=${photo.url}&folderPath=${report?.folderPath}`);
          if (!response.ok) throw new Error('Failed to download file');
          
          const blob = await response.blob();

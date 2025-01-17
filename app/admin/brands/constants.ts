@@ -31,4 +31,4 @@ export const ICONS = {
   }
 };
 
-export const PLACEHOLDER_IMAGE = '/images/default-placeholder.jpg'; 
+export const PLACEHOLDER_IMAGE = '/images/placeholder.jpg'; 

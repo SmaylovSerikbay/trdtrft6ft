@@ -16,9 +16,15 @@ export async function GET(request: Request) {
     if (path.startsWith('http')) {
       try {
         const url = new URL(path);
+        const folderPath = searchParams.get('folderPath');
         const filename = url.searchParams.get('filename');
-        // Получаем путь к файлу из folderPath репортажа
-        path = `/${filename}`; // Или используйте соответствующий путь к папке
+        
+        if (!folderPath || !filename) {
+          throw new Error('Missing folderPath or filename');
+        }
+        
+        // Формируем путь к файлу в Яндекс.Диске
+        path = `${folderPath}/${filename}`;
       } catch (e) {
         console.error('Error parsing URL:', e);
         return NextResponse.json({ error: 'Invalid URL' }, { status: 400 });
@@ -36,6 +42,7 @@ export async function GET(request: Request) {
     );
 
     if (!response.ok) {
+      console.error('Yandex.Disk API error:', await response.text());
       throw new Error('Failed to get download URL');
     }
 
@@ -43,6 +50,11 @@ export async function GET(request: Request) {
 
     // Скачиваем файл
     const fileResponse = await fetch(href);
+    
+    if (!fileResponse.ok) {
+      throw new Error('Failed to download file');
+    }
+    
     const fileBuffer = await fileResponse.arrayBuffer();
 
     return new NextResponse(fileBuffer, {
