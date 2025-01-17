@@ -97,21 +97,6 @@ export default function Header() {
             </div>
             <NavMenu isMenuOpen={isMenuOpen} />
             <div className="z-[2] flex items-center justify-end gap-x-[1.875rem] xl:flex-1">
-               <DropdownMenu>
-                  <DropdownMenuTrigger className="hidden font-bold uppercase xl:flex xl:items-center">
-                     о нас <ChevronDown />
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="rounded-[1.375rem] p-0 dark:bg-[#303030]">
-                     <DropdownMenuItem className="px-[1.375rem] py-4">
-                        <Link
-                           href="/team"
-                           className="text-[1.375rem] font-bold uppercase"
-                        >
-                           команда
-                        </Link>
-                     </DropdownMenuItem>
-                  </DropdownMenuContent>
-               </DropdownMenu>
                <div className="flex items-center gap-4">
                   <Search />
                   <ThemeToggle />
@@ -189,6 +174,19 @@ function NavMenu({ isMenuOpen }: NavMenuProps) {
             </li>
             <li>
                <a href="#anonces">анонсы</a>
+            </li>
+            <li>
+               <Link
+                  href="/team"
+                  className="text-[1.375rem] font-bold uppercase"
+               >
+                  команда
+               </Link>
+            </li>
+            <li>
+               <a href="#about">
+                  о нас
+               </a>
             </li>
             <li className="block xl:hidden">
                <DropdownMenu>

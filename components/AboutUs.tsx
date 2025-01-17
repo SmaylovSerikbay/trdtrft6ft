@@ -45,7 +45,7 @@ export default function AboutUs() {
   };
 
   return (
-    <section className="pb-11 pt-[2.375rem] sm:pb-[5.625rem] sm:pt-[4.75rem] md:pb-28 lg:pb-32 xl:pb-40 2xl:pb-[11.25rem]">
+    <section id="about" className="pb-11 pt-[2.375rem] sm:pb-[5.625rem] sm:pt-[4.75rem] md:pb-28 lg:pb-32 xl:pb-40 2xl:pb-[11.25rem]">
       <div className="container">
         <div className="mb-4 border-b border-black font-bold uppercase sm:mb-9 md:mb-12 dark:border-white">
           <div className="mb-1 text-sm leading-[135%] sm:text-xl">
@@ -87,7 +87,7 @@ export default function AboutUs() {
               <div className="flex flex-wrap items-center gap-7 xl:gap-x-10 2xl:gap-x-[5.6875rem]">
                 <div className="flex items-start gap-x-3">
                   <Image
-                    src="/about-us/icons/2gis.png"
+                    src="/about-us/icons/tiktok.png"
                     width={30}
                     height={30}
                     className="size-[1.875rem]"
