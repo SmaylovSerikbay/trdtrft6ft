@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 const YANDEX_DISK_API = "https://cloud-api.yandex.net/v1/disk/resources/download";
-const YANDEX_DISK_TOKEN = process.env.YANDEX_DISK_TOKEN;
+const YANDEX_DISK_TOKEN = "y0_AgAAAAB64smFAAz8zQAAAAEc7G8dAABxKsTxTQ9BpLnROYn1Mmf0LOMo4A";
 
 export async function GET(request: Request) {
   try {
